@@ -1,0 +1,195 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+const codeLines = [
+    { num: "01", content: 'const dev = {', highlight: "keyword" },
+    { num: "02", key: "name", value: '"Ganesh Kulakarni"' },
+    { num: "03", key: "role", value: '"MERN Stack Developer"' },
+    { num: "04", content: "skills: [", highlight: "key" },
+    { num: "05", content: '"React", "Node", "MongoDB", "AI"', highlight: "values" },
+    { num: "06", content: "]," },
+    {
+        num: "07",
+        key: "passion",
+        value: '"Agentic AI & Web apps"',
+    },
+    { num: "08", content: "};" },
+];
+
+const stats = [
+    { value: "IT", label: "Student" },
+    { value: "MREC", label: "University" },
+    { value: "2", label: "Hackathons" },
+];
+
+function useInView(ref, threshold = 0.15) {
+    const [isVisible, setVisible] = useState(false);
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+            { threshold }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, [ref, threshold]);
+    return isVisible;
+}
+
+export default function AboutSection() {
+    const sectionRef = useRef(null);
+    const isVisible = useInView(sectionRef, 0.1);
+
+    return (
+        <section
+            ref={sectionRef}
+            id="about"
+            className="relative min-h-screen pt-32 pb-24 px-6 md:px-12 lg:px-24"
+        >
+            {/* Background Watermark */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none opacity-5">
+                <h2 className="font-[family-name:var(--font-headline)] font-bold text-[30rem] leading-none tracking-tighter text-surface-container-highest">
+                    GK
+                </h2>
+            </div>
+
+            {/* Floating glow elements */}
+            <div className="fixed top-1/4 -right-20 w-96 h-96 bg-secondary/5 blur-[120px] rounded-full pointer-events-none -z-20" />
+            <div className="fixed bottom-1/4 -left-20 w-80 h-80 bg-primary/5 blur-[100px] rounded-full pointer-events-none -z-20" />
+
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                {/* Left Side: Code Editor Card */}
+                <div
+                    className={`relative group transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] ${isVisible
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 -translate-x-20"
+                        }`}
+                >
+                    {/* Ambient Glow */}
+                    <div className="absolute -inset-4 bg-primary/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-primary/15 transition-colors duration-700" />
+
+                    <div className="relative bg-on-surface/5 backdrop-blur-3xl border border-outline-variant/20 rounded-xl overflow-hidden shadow-2xl">
+                        {/* Editor Header */}
+                        <div className="flex items-center justify-between px-6 py-4 bg-surface-container-high/40 border-b border-outline-variant/10">
+                            <div className="flex gap-2">
+                                <div className="w-3 h-3 rounded-full bg-error/40" />
+                                <div className="w-3 h-3 rounded-full bg-tertiary/40" />
+                                <div className="w-3 h-3 rounded-full bg-primary/40" />
+                            </div>
+                            <div className="text-[10px] font-[family-name:var(--font-label)] uppercase tracking-widest text-on-surface-variant/60">
+                                developer_profile.js
+                            </div>
+                        </div>
+
+                        {/* Editor Body */}
+                        <div className="p-8 font-mono text-sm sm:text-base leading-relaxed">
+                            {codeLines.map((line, i) => (
+                                <div key={i} className="flex">
+                                    <span className="text-on-surface-variant/40 mr-6 select-none">
+                                        {line.num}
+                                    </span>
+                                    {line.key ? (
+                                        <code className="pl-4">
+                                            <span className="text-primary">{line.key}</span>:{" "}
+                                            <span className="text-secondary">{line.value}</span>,
+                                        </code>
+                                    ) : line.highlight === "keyword" ? (
+                                        <code className="text-primary-fixed-dim">
+                                            {line.content.split("dev").map((part, j) =>
+                                                j === 0 ? (
+                                                    <span key={j}>{part}</span>
+                                                ) : (
+                                                    <span key={j}>
+                                                        <span className="text-on-surface">dev</span>
+                                                        {part}
+                                                    </span>
+                                                )
+                                            )}
+                                        </code>
+                                    ) : line.highlight === "key" ? (
+                                        <code className="pl-4">
+                                            <span className="text-primary">
+                                                {line.content.replace(",", "")}
+                                            </span>
+                                            {line.content.includes(",") ? "," : ""}
+                                        </code>
+                                    ) : line.highlight === "values" ? (
+                                        <code className="pl-8">
+                                            {line.content.split(", ").map((val, j, arr) => (
+                                                <span key={j}>
+                                                    <span className="text-secondary">{val}</span>
+                                                    {j < arr.length - 1 ? ", " : ""}
+                                                </span>
+                                            ))}
+                                        </code>
+                                    ) : (
+                                        <code className={line.num === "06" ? "pl-4" : ""}>
+                                            {line.content}
+                                        </code>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Abstract element */}
+                    <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-gradient-to-tr from-primary-container to-secondary-container rounded-xl -z-10 opacity-20 blur-2xl" />
+                </div>
+
+                {/* Right Side: Content */}
+                <div
+                    className={`space-y-12 transition-all duration-1000 delay-200 ease-[cubic-bezier(0.23,1,0.32,1)] ${isVisible
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 translate-x-20"
+                        }`}
+                >
+                    <div className="space-y-6">
+                        <div className="inline-flex items-center gap-3">
+                            <div className="h-px w-8 bg-primary" />
+                            <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-primary">
+                                Discovery
+                            </span>
+                        </div>
+                        <h2 className="font-[family-name:var(--font-headline)] text-5xl md:text-6xl font-bold text-on-surface tracking-tighter leading-tight">
+                            About Me
+                        </h2>
+                        <p className="font-[family-name:var(--font-body)] text-lg text-on-surface-variant leading-relaxed max-w-xl">
+                            I'm an Information Technology student at Malla Reddy Engineering College with a strong passion for full-stack development and AI. I'm currently exploring the MERN stack in depth to build modern web applications, while also diving into Generative AI to understand how intelligent systems can enhance creativity and automation.
+                        </p>
+                    </div>
+
+                    {/* Stat Cards */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {stats.map((stat, i) => (
+                            <div
+                                key={i}
+                                className={`p-6 bg-surface-container-high/40 border border-outline-variant/20 rounded-xl transition-all duration-700 delay-[${400 + i * 100
+                                    }ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-primary/40 group ${i === 2 ? "col-span-2 md:col-span-1" : ""
+                                    } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                            >
+                                <div className="font-[family-name:var(--font-headline)] text-2xl font-bold text-on-surface group-hover:text-primary transition-colors">
+                                    {stat.value}
+                                </div>
+                                <div className="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-on-surface-variant mt-1">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div>
+                        <button className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-primary-container to-secondary-container rounded-xl text-on-surface font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all solaris-transition overflow-hidden">
+                            <span className="relative z-10">Download CV</span>
+                            <span className="material-symbols-outlined relative z-10 text-xl">
+                                download
+                            </span>
+                            <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}

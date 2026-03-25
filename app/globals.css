@@ -1,26 +1,322 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ========================================
+   ETHERIC VOID — Design System Tokens
+   ======================================== */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Surface & Background */
+  --color-surface: #131313;
+  --color-surface-dim: #131313;
+  --color-surface-bright: #3a3939;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container: #201f1f;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-highest: #353534;
+  --color-surface-variant: #353534;
+  --color-surface-tint: #acc7ff;
+  --color-background: #131313;
+
+  /* On-Surface */
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #c2c6d5;
+  --color-on-background: #e5e2e1;
+
+  /* Primary */
+  --color-primary: #acc7ff;
+  --color-primary-container: #508ff8;
+  --color-primary-fixed: #d7e2ff;
+  --color-primary-fixed-dim: #acc7ff;
+  --color-on-primary: #002f68;
+  --color-on-primary-container: #00285b;
+  --color-on-primary-fixed: #001a40;
+  --color-on-primary-fixed-variant: #004492;
+  --color-inverse-primary: #005bbf;
+
+  /* Secondary */
+  --color-secondary: #d2bbff;
+  --color-secondary-container: #6001d1;
+  --color-secondary-fixed: #eaddff;
+  --color-secondary-fixed-dim: #d2bbff;
+  --color-on-secondary: #3f008e;
+  --color-on-secondary-container: #c9aeff;
+  --color-on-secondary-fixed: #25005a;
+  --color-on-secondary-fixed-variant: #5a00c6;
+
+  /* Tertiary */
+  --color-tertiary: #ffb873;
+  --color-tertiary-container: #d37b02;
+  --color-tertiary-fixed: #ffdcbf;
+  --color-tertiary-fixed-dim: #ffb873;
+  --color-on-tertiary: #4b2800;
+  --color-on-tertiary-container: #412200;
+  --color-on-tertiary-fixed: #2d1600;
+  --color-on-tertiary-fixed-variant: #6a3b00;
+
+  /* Error */
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --color-on-error: #690005;
+  --color-on-error-container: #ffdad6;
+
+  /* Outline */
+  --color-outline: #8c909e;
+  --color-outline-variant: #424753;
+
+  /* Inverse */
+  --color-inverse-surface: #e5e2e1;
+  --color-inverse-on-surface: #313030;
+
+  /* Font Families */
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Inter", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface-container-lowest);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(172, 199, 255, 0.3);
+  color: var(--color-on-surface);
+}
+
+/* ========================================
+   GRAIN OVERLAY
+   ======================================== */
+
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ========================================
+   HERO GRID PATTERN
+   ======================================== */
+
+.hero-grid {
+  background-image: radial-gradient(
+    circle at 2px 2px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 0
+  );
+  background-size: 40px 40px;
+}
+
+/* ========================================
+   GLASS MORPHISM
+   ======================================== */
+
+.glass-card {
+  background: rgba(229, 226, 225, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(66, 71, 83, 0.2);
+}
+
+.glass-highlight {
+  border: 1px solid rgba(66, 71, 83, 0.2);
+}
+
+/* ========================================
+   SOLARIS EASING
+   ======================================== */
+
+.solaris-transition {
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ========================================
+   GLOW EFFECTS
+   ======================================== */
+
+.glow-hover:hover {
+  box-shadow: 0 0 40px rgba(172, 199, 255, 0.1);
+}
+
+.text-glow {
+  text-shadow: 0 0 15px rgba(172, 199, 255, 0.3);
+}
+
+/* ========================================
+   TILT CARDS
+   ======================================== */
+
+.tilt-card {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.4s ease;
+}
+
+.tilt-card:hover {
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02);
+  box-shadow: 0 0 30px rgba(172, 199, 255, 0.15);
+}
+
+/* ========================================
+   TIMELINE
+   ======================================== */
+
+.timeline-line {
+  background: linear-gradient(to bottom, transparent, #508ff8, #6001d1, transparent);
+  box-shadow: 0 0 20px rgba(80, 143, 248, 0.3);
+}
+
+.glow-node {
+  box-shadow: 0 0 15px #acc7ff;
+}
+
+/* ========================================
+   LIGHT BEAMS
+   ======================================== */
+
+.light-beam {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, #acc7ff, transparent);
+  opacity: 0.1;
+  filter: blur(2px);
+}
+
+/* ========================================
+   INFINITE SCROLL STRIP
+   ======================================== */
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+
+/* ========================================
+   GRADIENT TEXT
+   ======================================== */
+
+.gradient-text {
+  background: linear-gradient(to right, #acc7ff, #d2bbff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   WATERMARK
+   ======================================== */
+
+.watermark {
+  position: absolute;
+  font-size: 20rem;
+  font-weight: 800;
+  color: #1c1b1b;
+  z-index: -1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ========================================
+   MATERIAL SYMBOLS
+   ======================================== */
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ========================================
+   SCROLL PROGRESS
+   ======================================== */
+
+.scroll-progress {
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR (subtle)
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0e0e0e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #424753;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
 }
