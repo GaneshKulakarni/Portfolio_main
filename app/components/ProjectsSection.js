@@ -10,6 +10,7 @@ const projects = [
         tags: ["React.js", "Express", "Node.js", "MongoDB"],
         image: "/earth-together.png",
         category: "Full Stack",
+        github: "https://github.com/GaneshKulakarni/EarthTogether",
     },
     {
         title: "Image Generation Website",
@@ -18,6 +19,7 @@ const projects = [
         tags: ["React.js", "Express", "MongoDB", "AI APIs"],
         image: "/image-gen.png",
         category: "AI/ML",
+        github: "https://github.com/GaneshKulakarni/image-generation",
     },
     {
         title: "AI Summarizer",
@@ -26,6 +28,7 @@ const projects = [
         tags: ["Python", "NLP", "React.js", "REST APIs"],
         image: "/ai-summarizer.png",
         category: "AI/ML",
+        github: "https://github.com/GaneshKulakarni/ai_summarizer",
     },
 ];
 
@@ -149,12 +152,17 @@ export default function ProjectsSection() {
                                     </span>
                                     Live
                                 </button>
-                                <button className="flex items-center gap-2 text-on-surface-variant text-sm font-medium hover:text-on-surface transition-colors">
+                                <a
+                                    href={project.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-on-surface-variant text-sm font-medium hover:text-on-surface transition-colors"
+                                >
                                     <span className="material-symbols-outlined text-lg">
                                         code
                                     </span>
                                     GitHub
-                                </button>
+                                </a>
                             </div>
                         </div>
 
