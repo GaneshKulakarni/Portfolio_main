@@ -119,9 +119,9 @@ export default function HeroSection() {
                             <div className="absolute w-[30rem] h-[30rem] rounded-full bg-indigo-500/5 blur-[120px]" />
 
                             {/* Profile Image Asset Mockup */}
-                            <div className="relative z-10 w-80 h-80 rounded-3xl border border-outline-variant/10 backdrop-blur-3xl overflow-hidden group shadow-2xl">
+                            <div className="relative z-10 w-80 h-[28rem] rounded-3xl border border-outline-variant/10 backdrop-blur-3xl overflow-hidden group shadow-2xl">
                                 <img
-                                    src="/ganesh.jpeg"
+                                    src="/profile-full-image.jpeg"
                                     alt="Ganesh Kulkarni"
                                     className="w-full h-full object-cover opacity-90 transition-all duration-700 hover:scale-105"
                                 />
