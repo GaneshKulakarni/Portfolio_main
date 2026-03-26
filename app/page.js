@@ -28,6 +28,10 @@ const ExperienceSection = dynamic(
   () => import("./components/ExperienceSection"),
   { ssr: false }
 );
+const EducationSection = dynamic(
+  () => import("./components/EducationSection"),
+  { ssr: false }
+);
 const ContactSection = dynamic(() => import("./components/ContactSection"), {
   ssr: false,
 });
@@ -46,6 +50,7 @@ export default function Home() {
       <TechStackSection />
       <ProjectsSection />
       <ExperienceSection />
+      <EducationSection />
       <ContactSection />
       <Footer />
     </SmoothScroll>

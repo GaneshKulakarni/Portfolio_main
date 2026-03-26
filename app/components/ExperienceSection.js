@@ -4,50 +4,41 @@ import { useEffect, useRef, useState } from "react";
 
 const experiences = [
     {
-        title: "B.Tech IT Student",
-        company: "Malla Reddy Engineering College",
-        period: "2023 — Present",
-        icon: "school",
+        title: "Frontend Developer Intern",
+        company: "CODTECH IT SOLUTIONS",
+        location: "Remote",
+        period: "Oct — Nov 2024",
+        icon: "code",
         iconColor: "text-primary",
         accentColor: "text-secondary",
         dotColor: "bg-primary",
         side: "left",
         bullets: [
-            "Currently exploring the MERN stack in depth to build modern web applications.",
-            "Actively learning Data Structures and Algorithms in Java to sharpen problem-solving abilities.",
-            "Diving into Generative AI to understand intelligent systems.",
+            "Developed and enhanced 5+ responsive web modules using HTML, CSS, and JavaScript, improving cross-browser UI consistency across the product.",
+            "Identified and resolved 15+ frontend bugs through systematic debugging, directly improving application stability and user experience.",
+            "Optimized page load performance by implementing component reuse and clean coding practices, reducing redundant code by approximately 20%.",
+            "Collaborated with the development team using Git/GitHub for version control, following industry-standard branching and pull request workflows.",
         ],
-        tags: ["Java", "MERN Stack", "AI"],
+        tags: ["HTML", "CSS", "JavaScript", "Git"],
     },
     {
-        title: "1st Prize - Thintava Hackathon",
-        company: "VIT Chennai",
-        period: "Jan 2025",
-        icon: "emoji_events",
+        title: "Open Source Contributor",
+        company: "ECWoC '26 (Elite Coders)",
+        location: "Remote",
+        period: "Jan — Mar 2026",
+        icon: "diversity_3",
         iconColor: "text-secondary",
         accentColor: "text-primary",
         dotColor: "bg-secondary",
         side: "right",
         bullets: [
-            "Won first place in the Thintava Hackathon hosted at VIT Chennai.",
-            "Developed an innovative solution using modern web and AI technologies.",
+            "Explored 100+ open-source repositories to understand project architecture, contribution guidelines, and issue workflows.",
+            "Contributed to selected projects by raising issues and submitting pull requests.",
+            "Collaborated with maintainers using Git and GitHub workflows (fork, branch, pull request, code review).",
+            "Improved documentation and resolved community-reported issues.",
+            "Ranked #40 out of 516 contributors and achieved Top 80 contributor recognition.",
         ],
-        tags: ["Hackathon", "Innovation", "Web Development"],
-    },
-    {
-        title: "Top 10 - Agent-A-Thon 2025",
-        company: "Agentic AI Hackathon",
-        period: "Feb 2025",
-        icon: "smart_toy",
-        iconColor: "text-tertiary",
-        accentColor: "text-primary",
-        dotColor: "bg-tertiary",
-        side: "left",
-        bullets: [
-            "Secured a Top 10 finish in the Agent-A-Thon 2025 focused on autonomous AI agents.",
-            "Built agentic workflows combining LLMs with practical automation pipelines.",
-        ],
-        tags: ["Agentic AI", "LLMs", "Automation"],
+        tags: ["Open Source", "Git", "GitHub", "Documentation"],
     },
 ];
 
@@ -75,29 +66,35 @@ function TimelineItem({ exp, index }) {
     return (
         <div
             ref={itemRef}
-            className={`relative flex flex-col md:flex-row items-center justify-between w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] ${isVisible ? "opacity-100 translate-x-0" : `opacity-0 ${index % 2 === 0 ? "-translate-x-20" : "translate-x-20"}`
-                }`}
+            className={`relative flex flex-col md:flex-row items-center justify-between w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+                isVisible
+                    ? "opacity-100 translate-x-0"
+                    : `opacity-0 ${index % 2 === 0 ? "-translate-x-20" : "translate-x-20"}`
+            }`}
         >
             {/* Left content */}
             <div
-                className={`w-full md:w-[45%] ${exp.side === "left"
-                    ? "mb-8 md:mb-0 order-2 md:order-1"
-                    : "hidden md:block order-1"
-                    }`}
+                className={`w-full md:w-[45%] ${
+                    exp.side === "left"
+                        ? "mb-8 md:mb-0 order-2 md:order-1"
+                        : "hidden md:block order-1"
+                }`}
             >
                 {exp.side === "left" && <TimelineCard exp={exp} />}
             </div>
 
             {/* Center Node */}
             <div
-                className={`absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full ${exp.dotColor} glow-node border-[3px] border-surface z-20 hidden md:block transition-all duration-700 ${isVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
-                    }`}
+                className={`absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full ${exp.dotColor} glow-node border-[3px] border-surface z-20 hidden md:block transition-all duration-700 ${
+                    isVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                }`}
             />
 
             {/* Right content */}
             <div
-                className={`w-full md:w-[45%] ${exp.side === "right" ? "order-2" : "order-1 md:order-2 hidden md:block"
-                    }`}
+                className={`w-full md:w-[45%] ${
+                    exp.side === "right" ? "order-2" : "order-1 md:order-2 hidden md:block"
+                }`}
             >
                 {exp.side === "right" && <TimelineCard exp={exp} />}
             </div>
@@ -115,7 +112,7 @@ function TimelineItem({ exp, index }) {
 function TimelineCard({ exp }) {
     return (
         <div className="glass-card p-8 rounded-xl hover:bg-on-surface/[0.08] relative overflow-hidden transition-colors duration-500">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-2">
                 <div className="w-14 h-14 rounded-lg bg-surface-container-highest flex items-center justify-center border border-outline-variant/30">
                     <span
                         className={`material-symbols-outlined ${exp.iconColor} text-3xl`}
@@ -135,10 +132,22 @@ function TimelineCard({ exp }) {
                 </div>
             </div>
 
-            <ul className="space-y-4 font-[family-name:var(--font-body)] text-on-surface-variant text-base">
+            {/* Location badge */}
+            {exp.location && (
+                <div className="flex items-center gap-1.5 mb-5 ml-[4.5rem]">
+                    <span className="material-symbols-outlined text-on-surface-variant text-sm">
+                        location_on
+                    </span>
+                    <span className="font-[family-name:var(--font-label)] text-xs text-on-surface-variant tracking-wide">
+                        {exp.location}
+                    </span>
+                </div>
+            )}
+
+            <ul className={`space-y-4 font-[family-name:var(--font-body)] text-on-surface-variant text-base ${exp.location ? "" : "mt-4"}`}>
                 {exp.bullets.map((bullet, j) => (
                     <li key={j} className="flex gap-3">
-                        <span className={`${exp.accentColor} shrink-0`}>•</span>
+                        <span className={`${exp.accentColor} shrink-0 mt-1`}>•</span>
                         <span>{bullet}</span>
                     </li>
                 ))}
@@ -178,8 +187,11 @@ export default function ExperienceSection() {
                 {/* Header */}
                 <div
                     ref={headerRef}
-                    className={`mb-24 flex flex-col items-center transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] ${headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-                        }`}
+                    className={`mb-24 flex flex-col items-center transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+                        headerVisible
+                            ? "opacity-100 translate-y-0"
+                            : "opacity-0 translate-y-16"
+                    }`}
                 >
                     <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-primary mb-4">
                         Chronology
