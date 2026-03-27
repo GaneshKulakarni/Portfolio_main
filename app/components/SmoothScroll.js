@@ -1,54 +1,56 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
+/**
+ * SmoothScroll — Initializes Lenis smooth scroll and syncs it with GSAP ScrollTrigger.
+ * Wraps children without adding extra DOM elements.
+ */
 export default function SmoothScroll({ children }) {
-    useEffect(() => {
-        const initLenis = async () => {
-            const Lenis = (await import("lenis")).default;
+  const lenisRef = useRef(null);
 
-            const lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                orientation: "vertical",
-                gestureOrientation: "vertical",
-                smoothWheel: true,
-                wheelMultiplier: 1,
-                touchMultiplier: 2,
-                infinite: false,
-            });
+  useEffect(() => {
+    let lenis;
 
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
+    const initLenis = async () => {
+      const Lenis = (await import("lenis")).default;
+      const gsap = (await import("gsap")).default;
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
 
-            requestAnimationFrame(raf);
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
+        gestureOrientation: "vertical",
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false,
+      });
 
-            // Integrate with GSAP ScrollTrigger
-            const gsapModule = await import("gsap");
-            const gsap = gsapModule.default;
-            const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-            gsap.registerPlugin(ScrollTrigger);
+      lenisRef.current = lenis;
 
-            lenis.on("scroll", ScrollTrigger.update);
+      // Sync Lenis scroll position with ScrollTrigger
+      lenis.on("scroll", ScrollTrigger.update);
 
-            gsap.ticker.add((time) => {
-                lenis.raf(time * 1000);
-            });
+      // Use GSAP ticker to drive Lenis raf
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
 
-            gsap.ticker.lagSmoothing(0);
+      // Disable GSAP lag smoothing for consistent behavior
+      gsap.ticker.lagSmoothing(0);
+    };
 
-            return () => {
-                lenis.destroy();
-            };
-        };
+    initLenis();
 
-        const cleanup = initLenis();
-        return () => {
-            cleanup.then((fn) => fn && fn());
-        };
-    }, []);
+    return () => {
+      if (lenis) {
+        lenis.destroy();
+      }
+    };
+  }, []);
 
-    return <>{children}</>;
+  return <>{children}</>;
 }

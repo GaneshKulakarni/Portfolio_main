@@ -320,3 +320,77 @@ body {
 .animate-pulse-glow {
   animation: pulse-glow 4s ease-in-out infinite;
 }
+
+/* ========================================
+   CUSTOM CURSOR (hide native cursor on non-touch devices)
+   ======================================== */
+
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* ========================================
+   PRE-ANIMATION VISIBILITY
+   Use visibility:hidden instead of display:none
+   to prevent layout shift per project rules.
+   ======================================== */
+
+.anim-hidden {
+  visibility: hidden;
+}
+
+/* ========================================
+   HORIZONTAL SCROLL SECTION
+   ======================================== */
+
+.horizontal-scroll-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.horizontal-scroll-track {
+  display: flex;
+  will-change: transform;
+}
+
+/* ========================================
+   FLOAT LABEL FIELDS
+   ======================================== */
+
+.float-field {
+  position: relative;
+}
+
+.float-field .float-label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left top;
+  pointer-events: none;
+  transition: none; /* GSAP handles transitions */
+}
+
+.float-field textarea ~ .float-label {
+  top: 1rem;
+  transform: translateY(0);
+}
+
+/* ========================================
+   TIMELINE SVG
+   ======================================== */
+
+.timeline-svg-line {
+  stroke: url(#timeline-gradient);
+  stroke-width: 2;
+  fill: none;
+}
+
+.timeline-node-ripple {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid #acc7ff;
+  pointer-events: none;
+}

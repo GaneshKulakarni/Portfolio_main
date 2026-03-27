@@ -1,13 +1,23 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import GrainOverlay from "./components/GrainOverlay";
 import ScrollProgress from "./components/ScrollProgress";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-// Dynamic imports for heavy components
+// Dynamic imports for heavy components (no SSR needed for animations)
+const Preloader = dynamic(() => import("./components/Preloader"), {
+  ssr: false,
+});
 const SmoothScroll = dynamic(() => import("./components/SmoothScroll"), {
+  ssr: false,
+});
+const Cursor = dynamic(() => import("./components/Cursor"), {
+  ssr: false,
+});
+const ParticleField = dynamic(() => import("./three/ParticleField"), {
   ssr: false,
 });
 const HeroSection = dynamic(() => import("./components/HeroSection"), {
@@ -37,22 +47,39 @@ const ContactSection = dynamic(() => import("./components/ContactSection"), {
 });
 
 export default function Home() {
-  return (
-    <SmoothScroll>
-      {/* Global Overlays */}
-      <GrainOverlay />
-      <ScrollProgress />
-      <Navbar />
+  const [preloaderDone, setPreloaderDone] = useState(false);
 
-      {/* Main Content */}
-      <HeroSection />
-      <AboutSection />
-      <TechStackSection />
-      <ProjectsSection />
-      <ExperienceSection />
-      <EducationSection />
-      <ContactSection />
-      <Footer />
-    </SmoothScroll>
+  const handlePreloaderComplete = useCallback(() => {
+    setPreloaderDone(true);
+  }, []);
+
+  return (
+    <>
+      {/* Preloader — shown until complete */}
+      <Preloader onComplete={handlePreloaderComplete} />
+
+      {/* Custom cursor */}
+      <Cursor />
+
+      {/* Particle field background */}
+      <ParticleField />
+
+      <SmoothScroll>
+        {/* Global Overlays */}
+        <GrainOverlay />
+        <ScrollProgress />
+        <Navbar preloaderDone={preloaderDone} />
+
+        {/* Main Content */}
+        <HeroSection preloaderDone={preloaderDone} />
+        <AboutSection />
+        <TechStackSection />
+        <ProjectsSection />
+        <ExperienceSection />
+        <EducationSection />
+        <ContactSection />
+        <Footer />
+      </SmoothScroll>
+    </>
   );
 }
