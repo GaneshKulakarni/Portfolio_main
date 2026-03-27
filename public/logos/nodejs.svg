@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <path fill="#68A063" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0z"/>
+  <text x="64" y="82" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#fff" text-anchor="middle">N</text>
+  <text x="64" y="110" font-family="Arial, sans-serif" font-size="22" fill="#fff" text-anchor="middle">node</text>
+</svg>

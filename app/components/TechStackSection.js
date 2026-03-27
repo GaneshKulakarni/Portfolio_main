@@ -62,13 +62,16 @@ const bentoItems = [
 ];
 
 const scrollTechs = [
-  { abbr: "RE", name: "React", color: "bg-blue-500/20", text: "text-blue-400" },
-  { abbr: "NO", name: "Node.js", color: "bg-green-500/20", text: "text-green-400" },
-  { abbr: "EX", name: "Express", color: "bg-gray-500/20", text: "text-gray-400" },
-  { abbr: "MG", name: "MongoDB", color: "bg-green-600/20", text: "text-green-500" },
-  { abbr: "PY", name: "Python", color: "bg-yellow-500/20", text: "text-yellow-400" },
-  { abbr: "JA", name: "Java", color: "bg-orange-500/20", text: "text-orange-400" },
-  { abbr: "TW", name: "Tailwind", color: "bg-cyan-500/20", text: "text-cyan-400" },
+  { name: "React", logo: "/logos/react.svg", color: "bg-blue-500/20" },
+  { name: "Node.js", logo: "/logos/nodejs.svg", color: "bg-green-500/20" },
+  { name: "Express", logo: "/logos/express.svg", color: "bg-gray-500/20" },
+  { name: "MongoDB", logo: "/logos/mongodb.svg", color: "bg-green-600/20" },
+  { name: "JavaScript", logo: "/logos/javascript.svg", color: "bg-yellow-500/20" },
+  { name: "Next.js", logo: "/logos/nextjs.svg", color: "bg-gray-500/20" },
+  { name: "Tailwind", logo: "/logos/tailwind.svg", color: "bg-cyan-500/20" },
+  { name: "Three.js", logo: "/logos/threejs.svg", color: "bg-blue-500/20" },
+  { name: "GSAP", logo: "/logos/gsap.svg", color: "bg-green-500/20" },
+  { name: "Git", logo: "/logos/git.svg", color: "bg-red-500/20" },
 ];
 
 export default function TechStackSection() {
@@ -339,9 +342,14 @@ export default function TechStackSection() {
               className="flex items-center gap-4 bg-surface-container-low px-6 py-2 rounded-full border border-outline-variant/20 shrink-0"
             >
               <div
-                className={`w-6 h-6 rounded-sm ${tech.color} flex items-center justify-center text-[10px] ${tech.text} font-bold`}
+                className={`w-6 h-6 rounded-sm ${tech.color} flex items-center justify-center p-0.5 overflow-hidden`}
               >
-                {tech.abbr}
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  className="w-full h-full object-contain"
+                  draggable={false}
+                />
               </div>
               <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-widest text-on-surface-variant">
                 {tech.name}
