@@ -5,10 +5,10 @@ import { canAnimate } from "../utils/animation";
 
 const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
+  { label: "Education", href: "#education" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
-  { label: "Education", href: "#education" },
+  { label: "Work", href: "#work" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -126,7 +126,8 @@ export default function Navbar({ preloaderDone }) {
       sections.forEach((section) => {
         if (section) {
           const rect = section.getBoundingClientRect();
-          if (rect.top <= 200) {
+          // Use a tighter threshold for section tracking
+          if (rect.top <= 150 && rect.bottom >= 150) {
             current = section.id;
           }
         }

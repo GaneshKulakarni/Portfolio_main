@@ -51,6 +51,8 @@ export default function Home() {
 
   const handlePreloaderComplete = useCallback(() => {
     setPreloaderDone(true);
+    // Signal to CSS that GSAP is in control — disables fallback animations
+    document.body.classList.add("gsap-ready");
   }, []);
 
   return (
@@ -73,10 +75,10 @@ export default function Home() {
         {/* Main Content */}
         <HeroSection preloaderDone={preloaderDone} />
         <AboutSection />
-        <TechStackSection />
-        <ProjectsSection />
-        <ExperienceSection />
         <EducationSection />
+        <TechStackSection />
+        <ExperienceSection />
+        <ProjectsSection />
         <ContactSection />
         <Footer />
       </SmoothScroll>

@@ -342,17 +342,86 @@ body {
 }
 
 /* ========================================
-   HORIZONTAL SCROLL SECTION
+   CSS FALLBACK FOR GSAP ANIMATIONS
+   Elements start opacity:0 for GSAP, but
+   this keyframe ensures they become visible
+   after a delay even if GSAP never fires.
    ======================================== */
 
-.horizontal-scroll-container {
-  overflow: hidden;
-  position: relative;
+@keyframes fallback-fade-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-.horizontal-scroll-track {
+.hero-subtitle,
+.hero-desc,
+.hero-status,
+.hero-cta,
+.hero-image-wrapper,
+.hero-ring,
+.hero-line,
+.stat-item,
+.card,
+.about-code-card,
+.about-content,
+.about-stat,
+.about-deco,
+.bento-item,
+.orbit-section {
+  animation: fallback-fade-in 0.8s ease-out forwards;
+  animation-delay: 3.5s; /* Give GSAP time to take over */
+}
+
+/* When GSAP has loaded and is managing these elements,
+   disable the CSS fallback animation */
+body.gsap-ready .hero-subtitle,
+body.gsap-ready .hero-desc,
+body.gsap-ready .hero-status,
+body.gsap-ready .hero-cta,
+body.gsap-ready .hero-image-wrapper,
+body.gsap-ready .hero-ring,
+body.gsap-ready .hero-line,
+body.gsap-ready .stat-item,
+body.gsap-ready .card,
+body.gsap-ready .about-code-card,
+body.gsap-ready .about-content,
+body.gsap-ready .about-stat,
+body.gsap-ready .about-deco,
+body.gsap-ready .bento-item,
+body.gsap-ready .orbit-section {
+  animation: none;
+}
+
+/* ========================================
+   FEATURED PROJECTS & CARDS WRAPPER
+   ======================================== */
+
+.featured-projects {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.cards-wrapper {
   display: flex;
-  will-change: transform;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+.cards-wrapper::-webkit-scrollbar {
+  display: none; /* Hide scrollbar but keep functionality */
+}
+
+.card {
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card:hover {
+  /* Only individual card transforms */
+  transform: translateY(-8px);
 }
 
 /* ========================================

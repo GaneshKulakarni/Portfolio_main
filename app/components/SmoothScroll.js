@@ -41,6 +41,11 @@ export default function SmoothScroll({ children }) {
 
       // Disable GSAP lag smoothing for consistent behavior
       gsap.ticker.lagSmoothing(0);
+
+      // Refresh ScrollTrigger after Lenis takes over to recalculate positions
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 500);
     };
 
     initLenis();

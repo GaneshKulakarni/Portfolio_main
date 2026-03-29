@@ -92,22 +92,6 @@ export default function TechStackSection() {
       gsap.registerPlugin(ScrollTrigger);
 
       ctx = gsap.context(() => {
-        // Section entrance
-        gsap.fromTo(
-          sectionRef.current,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 85%",
-              once: true,
-            },
-          }
-        );
 
         // Bento grid items stagger
         const gridItems = gridRef.current?.querySelectorAll(".bento-item");
@@ -162,45 +146,74 @@ export default function TechStackSection() {
     <section
       ref={sectionRef}
       id="skills"
-      className="relative z-10 pt-40 pb-20 px-8 max-w-7xl mx-auto min-h-screen"
-      style={{ opacity: 0 }}
+      className="relative z-10 bg-background pt-40 pb-40"
     >
-      {/* Header */}
-      <header className="mb-24">
-        <h2
-          className="font-[family-name:var(--font-headline)] text-[5rem] font-bold tracking-tighter leading-none mb-4 text-on-surface"
-          data-reveal
-        >
-          Tech Stack
-        </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary-container to-secondary-container" />
-      </header>
-
-      {/* 3D Skills Orbit */}
-      <div className="orbit-section mb-32" style={{ opacity: 0 }}>
-        <SkillsOrbit />
-      </div>
-
-      {/* Bento Grid */}
-      <div
-        ref={gridRef}
-        className="grid grid-cols-1 md:grid-cols-4 grid-rows-auto gap-6 mb-32"
-      >
-        {bentoItems.map((item, i) => (
-          <div
-            key={i}
-            className={`bento-item glass-card glow-hover ${item.size} p-8 rounded-xl flex flex-col ${
-              item.type === "tools"
-                ? "md:flex-row items-center justify-between"
-                : item.type === "metric"
-                ? "items-center justify-center text-center"
-                : ""
-            } group`}
-            style={{ opacity: 0 }}
+      <div className="max-w-7xl mx-auto px-8">
+        {/* Header */}
+        <header className="mb-24">
+          <h2
+            className="font-[family-name:var(--font-headline)] text-[5rem] font-bold tracking-tighter leading-none mb-4 text-on-surface"
+            data-reveal
           >
-            {item.type === "tags" && (
-              <>
-                <div>
+            Tech Stack
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary-container to-secondary-container" />
+        </header>
+
+        {/* 3D Skills Orbit */}
+        <div className="orbit-section mb-32" style={{ opacity: 0 }}>
+          <SkillsOrbit />
+        </div>
+
+        {/* Bento Grid */}
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 md:grid-cols-4 grid-rows-auto gap-6 mb-32"
+        >
+          {bentoItems.map((item, i) => (
+            <div
+              key={i}
+              className={`bento-item glass-card glow-hover ${item.size} p-8 rounded-xl flex flex-col ${
+                item.type === "tools"
+                  ? "md:flex-row items-center justify-between"
+                  : item.type === "metric"
+                  ? "items-center justify-center text-center"
+                  : ""
+              } group`}
+              style={{ opacity: 0 }}
+            >
+              {item.type === "tags" && (
+                <>
+                  <div>
+                    <div className="flex items-center gap-3 mb-6">
+                      <span
+                        className={`material-symbols-outlined ${item.iconColor} text-3xl`}
+                      >
+                        {item.icon}
+                      </span>
+                      <h3 className="font-[family-name:var(--font-headline)] text-2xl font-bold">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-on-surface-variant text-lg leading-relaxed mb-8 max-w-md">
+                      {item.description}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {item.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-surface-variant text-on-surface-variant px-4 py-1.5 rounded-full text-xs font-[family-name:var(--font-label)] uppercase tracking-widest border border-outline-variant/20"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {item.type === "checklist" && (
+                <>
                   <div className="flex items-center gap-3 mb-6">
                     <span
                       className={`material-symbols-outlined ${item.iconColor} text-3xl`}
@@ -211,84 +224,29 @@ export default function TechStackSection() {
                       {item.title}
                     </h3>
                   </div>
-                  <p className="text-on-surface-variant text-lg leading-relaxed mb-8 max-w-md">
+                  <p className="text-on-surface-variant mb-8">
                     {item.description}
                   </p>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  {item.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-surface-variant text-on-surface-variant px-4 py-1.5 rounded-full text-xs font-[family-name:var(--font-label)] uppercase tracking-widest border border-outline-variant/20"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </>
-            )}
+                  <div className="space-y-4 mt-auto">
+                    {item.items.map((tech) => (
+                      <div
+                        key={tech}
+                        className="flex items-center justify-between p-3 rounded-lg bg-surface-container-high/40"
+                      >
+                        <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-widest">
+                          {tech}
+                        </span>
+                        <span className="material-symbols-outlined text-sm text-primary">
+                          check_circle
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
 
-            {item.type === "checklist" && (
-              <>
-                <div className="flex items-center gap-3 mb-6">
-                  <span
-                    className={`material-symbols-outlined ${item.iconColor} text-3xl`}
-                  >
-                    {item.icon}
-                  </span>
-                  <h3 className="font-[family-name:var(--font-headline)] text-2xl font-bold">
-                    {item.title}
-                  </h3>
-                </div>
-                <p className="text-on-surface-variant mb-8">
-                  {item.description}
-                </p>
-                <div className="space-y-4 mt-auto">
-                  {item.items.map((tech) => (
-                    <div
-                      key={tech}
-                      className="flex items-center justify-between p-3 rounded-lg bg-surface-container-high/40"
-                    >
-                      <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-widest">
-                        {tech}
-                      </span>
-                      <span className="material-symbols-outlined text-sm text-primary">
-                        check_circle
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {item.type === "list" && (
-              <>
-                <div className="flex items-center gap-3 mb-4">
-                  <span
-                    className={`material-symbols-outlined ${item.iconColor} text-2xl`}
-                  >
-                    {item.icon}
-                  </span>
-                  <h3 className="font-[family-name:var(--font-headline)] text-xl font-bold">
-                    {item.title}
-                  </h3>
-                </div>
-                <div className="mt-auto flex flex-col gap-2">
-                  {item.items.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-on-surface-variant font-[family-name:var(--font-body)]"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {item.type === "tools" && (
-              <>
-                <div className="max-w-[50%]">
+              {item.type === "list" && (
+                <>
                   <div className="flex items-center gap-3 mb-4">
                     <span
                       className={`material-symbols-outlined ${item.iconColor} text-2xl`}
@@ -299,41 +257,68 @@ export default function TechStackSection() {
                       {item.title}
                     </h3>
                   </div>
-                  <p className="text-on-surface-variant text-sm">
-                    {item.description}
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {item.tools.map((tool) => (
-                    <div key={tool.name} className="flex items-center gap-2">
-                      <div
-                        className={`w-1.5 h-1.5 rounded-full ${tool.color}`}
-                      />
-                      <span className="text-xs font-[family-name:var(--font-label)] uppercase">
-                        {tool.name}
+                  <div className="mt-auto flex flex-col gap-2">
+                    {item.items.map((tech) => (
+                      <span
+                        key={tech}
+                        className="text-on-surface-variant font-[family-name:var(--font-body)]"
+                      >
+                        {tech}
                       </span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+                    ))}
+                  </div>
+                </>
+              )}
 
-            {item.type === "metric" && (
-              <>
-                <span className="text-primary text-4xl font-[family-name:var(--font-headline)] font-black mb-1">
-                  {item.value}
-                </span>
-                <span className="text-on-surface-variant text-[0.65rem] font-[family-name:var(--font-label)] uppercase tracking-widest">
-                  {item.label}
-                </span>
-              </>
-            )}
-          </div>
-        ))}
+              {item.type === "tools" && (
+                <>
+                  <div className="max-w-[50%]">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span
+                        className={`material-symbols-outlined ${item.iconColor} text-2xl`}
+                      >
+                        {item.icon}
+                      </span>
+                      <h3 className="font-[family-name:var(--font-headline)] text-xl font-bold">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-on-surface-variant text-sm">
+                      {item.description}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {item.tools.map((tool) => (
+                      <div key={tool.name} className="flex items-center gap-2">
+                        <div
+                          className={`w-1.5 h-1.5 rounded-full ${tool.color}`}
+                        />
+                        <span className="text-xs font-[family-name:var(--font-label)] uppercase">
+                          {tool.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {item.type === "metric" && (
+                <>
+                  <span className="text-primary text-4xl font-[family-name:var(--font-headline)] font-black mb-1">
+                    {item.value}
+                  </span>
+                  <span className="text-on-surface-variant text-[0.65rem] font-[family-name:var(--font-label)] uppercase tracking-widest">
+                    {item.label}
+                  </span>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Infinite Horizontal Scroll Strip */}
-      <div className="relative w-full overflow-hidden py-10 border-y border-outline-variant/10">
+      <div className="relative w-full overflow-hidden py-10 border-y border-outline-variant/10 bg-surface-container-lowest/50 backdrop-blur-sm">
         <div className="animate-scroll gap-12 items-center">
           {/* Original + Duplicate for seamless loop */}
           {[...scrollTechs, ...scrollTechs].map((tech, i) => (
