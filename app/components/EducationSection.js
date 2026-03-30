@@ -202,7 +202,7 @@ export default function EducationSection() {
     return (
         <section
             id="education"
-            className="relative pt-40 pb-32 overflow-hidden"
+            className="relative z-10 pt-40 pb-32 overflow-hidden"
         >
             {/* Background Watermark */}
             <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] select-none pointer-events-none">

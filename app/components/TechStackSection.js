@@ -146,7 +146,7 @@ export default function TechStackSection() {
     <section
       ref={sectionRef}
       id="skills"
-      className="relative z-10 bg-background pt-40 pb-40"
+      className="relative z-10 pt-40 pb-40"
     >
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}

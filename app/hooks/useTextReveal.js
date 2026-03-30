@@ -24,6 +24,7 @@ export default function useTextReveal(containerRef, delay = 0) {
 
       ctx = gsap.context(() => {
         const revealEls = containerRef.current.querySelectorAll("[data-reveal]");
+        if (!revealEls.length) return;
 
         revealEls.forEach((el) => {
           // Skip if already processed

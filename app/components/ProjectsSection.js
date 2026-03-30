@@ -121,7 +121,7 @@ export default function ProjectsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="work" className="featured-projects relative z-20 bg-background pt-24 pb-32 overflow-hidden w-full">
+    <section ref={sectionRef} id="work" className="featured-projects relative z-20 pt-24 pb-32 overflow-hidden w-full">
       <div className="px-6 md:px-24 mb-12">
         <h2 className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold tracking-tighter text-on-surface mb-2" data-reveal>
           Featured Work

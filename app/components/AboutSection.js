@@ -159,7 +159,7 @@ export default function AboutSection() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative min-h-screen pt-32 pb-24 px-6 md:px-12 lg:px-24"
+      className="relative z-10 min-h-screen pt-32 pb-24 px-6 md:px-12 lg:px-24"
     >
       {/* Background Watermark */}
       <div className="about-deco absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none opacity-5">

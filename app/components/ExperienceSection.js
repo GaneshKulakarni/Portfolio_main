@@ -258,7 +258,7 @@ export default function ExperienceSection() {
     <section
       ref={sectionRef}
       id="experience"
-      className="relative min-h-screen pt-40 pb-24 overflow-hidden"
+      className="relative z-10 min-h-screen pt-40 pb-24 overflow-hidden"
     >
       {/* Background Watermark */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none">

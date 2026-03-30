@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import GrainOverlay from "./components/GrainOverlay";
 import ScrollProgress from "./components/ScrollProgress";
@@ -48,12 +48,21 @@ const ContactSection = dynamic(() => import("./components/ContactSection"), {
 
 export default function Home() {
   const [preloaderDone, setPreloaderDone] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handlePreloaderComplete = useCallback(() => {
     setPreloaderDone(true);
     // Signal to CSS that GSAP is in control — disables fallback animations
-    document.body.classList.add("gsap-ready");
+    if (typeof document !== "undefined") {
+      document.body.classList.add("gsap-ready");
+    }
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <>

@@ -194,7 +194,7 @@ export default function ContactSection() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative min-h-screen w-full flex flex-col items-center justify-center px-6 pt-32 pb-24 overflow-hidden"
+      className="relative z-10 min-h-screen w-full flex flex-col items-center justify-center px-6 pt-32 pb-24 overflow-hidden"
     >
       {/* Subtle Beam Effects */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
