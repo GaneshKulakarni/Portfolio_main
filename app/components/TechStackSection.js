@@ -67,10 +67,7 @@ const scrollTechs = [
   { name: "Express", logo: "/logos/express.svg", color: "bg-gray-500/20" },
   { name: "MongoDB", logo: "/logos/mongodb.svg", color: "bg-green-600/20" },
   { name: "JavaScript", logo: "/logos/javascript.svg", color: "bg-yellow-500/20" },
-  { name: "Next.js", logo: "/logos/nextjs.svg", color: "bg-gray-500/20" },
   { name: "Tailwind", logo: "/logos/tailwind.svg", color: "bg-cyan-500/20" },
-  { name: "Three.js", logo: "/logos/threejs.svg", color: "bg-blue-500/20" },
-  { name: "GSAP", logo: "/logos/gsap.svg", color: "bg-green-500/20" },
   { name: "Git", logo: "/logos/git.svg", color: "bg-red-500/20" },
 ];
 
@@ -152,7 +149,7 @@ export default function TechStackSection() {
         {/* Header */}
         <header className="mb-24">
           <h2
-            className="font-[family-name:var(--font-headline)] text-[5rem] font-bold tracking-tighter leading-none mb-4 text-on-surface"
+            className="font-[family-name:var(--font-headline)] text-4xl sm:text-5xl md:text-[5rem] font-bold tracking-tighter leading-none mb-4 text-on-surface"
             data-reveal
           >
             Tech Stack
@@ -161,26 +158,25 @@ export default function TechStackSection() {
         </header>
 
         {/* 3D Skills Orbit */}
-        <div className="orbit-section mb-32" style={{ opacity: 0 }}>
+        <div className="orbit-section mb-32" style={{ height: "clamp(400px, 60vw, 600px)", width: "100%" }}>
           <SkillsOrbit />
         </div>
 
         {/* Bento Grid */}
         <div
           ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-4 grid-rows-auto gap-6 mb-32"
+          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-32"
         >
           {bentoItems.map((item, i) => (
             <div
               key={i}
-              className={`bento-item glass-card glow-hover ${item.size} p-8 rounded-xl flex flex-col ${
+              className={`bento-item glass-card glow-hover ${item.size} p-6 md:p-8 rounded-xl flex flex-col ${
                 item.type === "tools"
-                  ? "md:flex-row items-center justify-between"
+                  ? "md:flex-row items-start md:items-center justify-start"
                   : item.type === "metric"
                   ? "items-center justify-center text-center"
                   : ""
               } group`}
-              style={{ opacity: 0 }}
             >
               {item.type === "tags" && (
                 <>

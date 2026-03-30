@@ -12,10 +12,7 @@ const skills = [
   { name: "Node.js", logo: "/logos/nodejs.svg", color: "#68A063" },
   { name: "MongoDB", logo: "/logos/mongodb.svg", color: "#4DB33D" },
   { name: "Express", logo: "/logos/express.svg", color: "#828282" },
-  { name: "Next.js", logo: "/logos/nextjs.svg", color: "#ffffff" },
-  { name: "Three.js", logo: "/logos/threejs.svg", color: "#049EF4" },
   { name: "Tailwind", logo: "/logos/tailwind.svg", color: "#38BDF8" },
-  { name: "GSAP", logo: "/logos/gsap.svg", color: "#88CE02" },
   { name: "Git", logo: "/logos/git.svg", color: "#F1502F" },
   { name: "JavaScript", logo: "/logos/javascript.svg", color: "#F7DF1E" },
 ];
@@ -349,15 +346,6 @@ function Scene() {
         intensity={0.3}
         color="#c7d2fe"
       />
-
-      {/* 3D Monitor */}
-      <Monitor />
-
-      {/* Ground shadow */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.45, 0]} receiveShadow>
-        <planeGeometry args={[12, 12]} />
-        <shadowMaterial opacity={0.15} />
-      </mesh>
 
       {/* Orbital ring */}
       <OrbitalRing radius={orbitRadius} />

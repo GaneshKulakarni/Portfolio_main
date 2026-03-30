@@ -212,7 +212,7 @@ export default function ContactSection() {
           Let&apos;s Connect
         </span>
         <h2
-          className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold tracking-tighter text-on-surface mb-6 leading-[0.9]"
+          className="font-[family-name:var(--font-headline)] text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-on-surface mb-6 leading-[0.9]"
           data-reveal
         >
           Let&apos;s Build Something

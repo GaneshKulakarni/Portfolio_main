@@ -215,12 +215,12 @@ export default function HeroSection({ preloaderDone }) {
 
             <div className="flex flex-col gap-2">
               <h2
-                className={`hero-subtitle font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-light tracking-tight text-on-surface/80 transition-opacity duration-700 ${headlineRevealed ? 'opacity-80' : 'opacity-0'}`}
-              >
+              className={`hero-subtitle font-[family-name:var(--font-headline)] text-xl sm:text-2xl md:text-3xl font-light tracking-tight text-on-surface/80 transition-opacity duration-700 ${headlineRevealed ? 'opacity-80' : 'opacity-0'}`}
+            >
                 Hi, I&apos;m
               </h2>
               <h1
-                className="hero-headline font-[family-name:var(--font-headline)] text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-400"
+                className="hero-headline font-[family-name:var(--font-headline)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-400"
                 style={{
                   transform: headlineRevealed ? "translateY(0)" : "translateY(40px)",
                   opacity: headlineRevealed ? 1 : 0,
@@ -285,9 +285,8 @@ export default function HeroSection({ preloaderDone }) {
               <div className="absolute w-96 h-96 rounded-full bg-blue-500/10 blur-[100px] animate-pulse" />
               <div className="absolute w-[30rem] h-[30rem] rounded-full bg-indigo-500/5 blur-[120px]" />
 
-              {/* Profile Image — cinematic reveal  */}
-              <div className="hero-image-wrapper relative z-10 w-80 h-[28rem] rounded-3xl overflow-hidden shadow-2xl"
-                style={{ clipPath: "inset(100% 0 0 0)" }}>
+              {/* Profile Image — cinematic reveal */}
+              <div className="hero-image-wrapper relative z-10 w-72 sm:w-80 md:w-96 h-[400px] sm:h-[450px] md:h-[28rem] rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src="/profile-full-image.jpeg"
                   alt="Ganesh Kulkarni"

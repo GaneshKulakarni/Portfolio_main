@@ -326,7 +326,7 @@ body {
    ======================================== */
 
 @media (hover: hover) and (pointer: fine) {
-  * {
+  body.hide-native-cursor * {
     cursor: none !important;
   }
 }
@@ -370,7 +370,6 @@ body.gsap-ready .hero-subtitle,
 body.gsap-ready .hero-desc,
 body.gsap-ready .hero-status,
 body.gsap-ready .hero-cta,
-body.gsap-ready .hero-image-wrapper,
 body.gsap-ready .hero-ring,
 body.gsap-ready .hero-line,
 body.gsap-ready .stat-item,
@@ -382,6 +381,21 @@ body.gsap-ready .about-deco,
 body.gsap-ready .bento-item,
 body.gsap-ready .orbit-section {
   animation: none;
+}
+
+/* Hero image reveal — GSAP sets clipPath, this CSS ensures it's visible if GSAP fails */
+body.gsap-ready .hero-image-wrapper {
+  clip-path: inset(0% 0 0 0) !important;
+}
+
+/* Fallback hero image reveal — fires even if GSAP doesn't run */
+@keyframes hero-image-reveal {
+  0% { clip-path: inset(100% 0 0 0); }
+  100% { clip-path: inset(0% 0 0 0); }
+}
+
+.hero-image-wrapper {
+  animation: hero-image-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3s forwards;
 }
 
 /* ========================================

@@ -224,7 +224,7 @@ export default function EducationSection() {
                     <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.25em] text-primary mb-4 block">
                         Academic Path
                     </span>
-                    <h2 className="font-[family-name:var(--font-headline)] text-6xl md:text-8xl font-bold tracking-tighter text-on-surface leading-none">
+                    <h2 className="font-[family-name:var(--font-headline)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-on-surface leading-none">
                         Education<span className="text-primary">.</span>
                     </h2>
                     {/* Accent underline */}

@@ -18,14 +18,15 @@ export default function Preloader({ onComplete }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // If reduced motion, skip entirely
+    // If reduced motion, skip animation and complete immediately
     if (!canAnimate()) {
       setVisible(false);
-      if (onComplete) onComplete();
+      onComplete?.();
       return;
     }
 
     let ctx;
+    let rafId;
 
     const init = async () => {
       const gsap = (await import("gsap")).default;

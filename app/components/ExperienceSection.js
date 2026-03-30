@@ -274,7 +274,7 @@ export default function ExperienceSection() {
             Chronology
           </span>
           <h2
-            className="font-[family-name:var(--font-headline)] text-6xl md:text-8xl font-bold tracking-tighter text-on-surface leading-none text-center"
+            className="font-[family-name:var(--font-headline)] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-on-surface leading-none text-center"
             data-reveal
           >
             Experience
@@ -356,14 +356,7 @@ export default function ExperienceSection() {
                   </div>
                 )}
 
-                {/* Date label */}
-                <div
-                  className={`timeline-date absolute top-0 hidden md:block font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-on-surface-variant/60 ${
-                    exp.side === "left" ? "right-0 md:right-[52%]" : "left-0 md:left-[52%]"
-                  }`}
-                >
-                  {exp.period}
-                </div>
+                {/* Date label removed to prevent overlap and redundancy */}
               </div>
             ))}
           </div>

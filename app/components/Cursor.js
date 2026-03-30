@@ -33,6 +33,9 @@ export default function Cursor() {
       // Show cursor elements
       dot.style.opacity = "1";
       ring.style.opacity = "1";
+      if (document && document.body) {
+        document.body.classList.add("hide-native-cursor");
+      }
 
       const handleMouseMove = (e) => {
         // Dot follows immediately
@@ -113,6 +116,9 @@ export default function Cursor() {
         });
 
         delete window._cursorCleanup;
+      }
+      if (document && document.body) {
+        document.body.classList.remove("hide-native-cursor");
       }
     };
   }, []);
