@@ -7,7 +7,7 @@ import useMagneticHover from "../hooks/useMagneticHover";
 
 const codeLines = [
   { num: "01", content: "const dev = {", highlight: "keyword" },
-  { num: "02", key: "name", value: '"Ganesh Kulakarni"' },
+  { num: "02", key: "name", value: '"Ganesh Kulkarni"' },
   { num: "03", key: "role", value: '"MERN Stack Developer"' },
   { num: "04", content: "skills: [", highlight: "key" },
   {
@@ -174,7 +174,7 @@ export default function AboutSection() {
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         {/* Left Side: Code Editor Card */}
-        <div className="about-code-card relative group" style={{ opacity: 0 }}>
+        <div className="about-code-card relative group">
           {/* Ambient Glow */}
           <div className="about-deco absolute -inset-4 bg-primary/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-primary/15 transition-colors duration-700" />
 
@@ -247,7 +247,7 @@ export default function AboutSection() {
         </div>
 
         {/* Right Side: Content */}
-        <div className="about-content space-y-12" style={{ opacity: 0 }}>
+        <div className="about-content space-y-12">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-3">
               <div className="hero-line h-px w-8 bg-primary" />
@@ -282,7 +282,6 @@ export default function AboutSection() {
                 className={`about-stat p-6 bg-surface-container-high/40 border border-outline-variant/20 rounded-xl transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-primary/40 group ${
                   i === 2 ? "col-span-2 md:col-span-1" : ""
                 }`}
-                style={{ opacity: 0 }}
               >
                 <div className="font-[family-name:var(--font-headline)] text-2xl font-bold text-on-surface group-hover:text-primary transition-colors">
                   {stat.value}

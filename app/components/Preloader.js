@@ -116,7 +116,7 @@ export default function Preloader({ onComplete }) {
 
   if (!visible) return null;
 
-  const name = "Ganesh Kulakarni";
+  const name = "Ganesh Kulkarni";
 
   return (
     <div

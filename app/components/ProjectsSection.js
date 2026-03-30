@@ -11,7 +11,7 @@ const projects = [
     tags: ["React.js", "Express", "Node.js", "MongoDB"],
     image: "/earth-together.png",
     category: "Full Stack",
-    github: "https://github.com/GaneshKulakarni/EarthTogether",
+    github: "https://github.com/GaneshKulkarni/EarthTogether",
     color: "#4DB33D",
   },
   {
@@ -20,7 +20,7 @@ const projects = [
     tags: ["React.js", "Express", "MongoDB", "AI APIs"],
     image: "/image-gen.png",
     category: "AI/ML",
-    github: "https://github.com/GaneshKulakarni/image-generation",
+    github: "https://github.com/GaneshKulkarni/image-generation",
     color: "#818cf8",
   },
   {
@@ -29,7 +29,7 @@ const projects = [
     tags: ["Python", "NLP", "React.js", "REST APIs"],
     image: "/ai-summarizer.png",
     category: "AI/ML",
-    github: "https://github.com/GaneshKulakarni/ai_summarizer",
+    github: "https://github.com/GaneshKulkarni/ai_summarizer",
     color: "#60a5fa",
   },
 ];

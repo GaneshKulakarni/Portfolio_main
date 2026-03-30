@@ -269,7 +269,7 @@ export default function ExperienceSection() {
 
       <div className="max-w-7xl mx-auto px-8 relative z-10">
         {/* Header */}
-        <div className="exp-header mb-24 flex flex-col items-center" style={{ opacity: 0 }}>
+        <div className="exp-header mb-24 flex flex-col items-center">
           <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-primary mb-4">
             Chronology
           </span>
@@ -313,7 +313,6 @@ export default function ExperienceSection() {
               <div
                 key={i}
                 className="timeline-entry relative flex flex-col md:flex-row items-center justify-between w-full"
-                style={{ opacity: 0 }}
               >
                 {/* Left content */}
                 <div
@@ -327,8 +326,7 @@ export default function ExperienceSection() {
                 </div>
 
                 {/* Center Node */}
-                <div className="timeline-node absolute left-1/2 -translate-x-1/2 hidden md:flex items-center justify-center z-20"
-                  style={{ scale: 0, opacity: 0 }}>
+                <div className="timeline-node absolute left-1/2 -translate-x-1/2 hidden md:flex items-center justify-center z-20">
                   <div
                     className={`w-4 h-4 rounded-full ${exp.dotColor} border-[3px] border-surface`}
                     style={{ boxShadow: "0 0 15px #acc7ff" }}
@@ -363,7 +361,6 @@ export default function ExperienceSection() {
                   className={`timeline-date absolute top-0 hidden md:block font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-on-surface-variant/60 ${
                     exp.side === "left" ? "right-0 md:right-[52%]" : "left-0 md:left-[52%]"
                   }`}
-                  style={{ opacity: 0 }}
                 >
                   {exp.period}
                 </div>

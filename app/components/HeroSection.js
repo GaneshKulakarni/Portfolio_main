@@ -203,8 +203,7 @@ export default function HeroSection({ preloaderDone }) {
           {/* Left Side: Content */}
           <div className="w-full md:w-1/2 flex flex-col items-start gap-8 z-20">
             {/* Status Badge */}
-            <div className="hero-status flex items-center gap-3 px-4 py-1.5 rounded-full bg-surface-container-high/50 border border-outline-variant/20 backdrop-blur-md"
-              style={{ opacity: 0 }}>
+            <div className={`hero-status flex items-center gap-3 px-4 py-1.5 rounded-full bg-surface-container-high/50 border border-outline-variant/20 backdrop-blur-md transition-opacity duration-700 ${headlineRevealed ? 'opacity-100' : 'opacity-0'}`}>
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
@@ -216,8 +215,7 @@ export default function HeroSection({ preloaderDone }) {
 
             <div className="flex flex-col gap-2">
               <h2
-                className="hero-subtitle font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-light tracking-tight text-on-surface/80"
-                style={{ opacity: 0 }}
+                className={`hero-subtitle font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-light tracking-tight text-on-surface/80 transition-opacity duration-700 ${headlineRevealed ? 'opacity-80' : 'opacity-0'}`}
               >
                 Hi, I&apos;m
               </h2>
@@ -236,8 +234,7 @@ export default function HeroSection({ preloaderDone }) {
             {/* Role Details */}
             <div className="flex flex-col gap-4">
               <p
-                className="hero-desc font-[family-name:var(--font-headline)] text-lg md:text-xl font-medium tracking-tight text-blue-300"
-                style={{ opacity: 0 }}
+                className={`hero-desc font-[family-name:var(--font-headline)] text-lg md:text-xl font-medium tracking-tight text-blue-300 transition-opacity duration-700 ${headlineRevealed ? 'opacity-100' : 'opacity-0'}`}
               >
                 MERN Stack Developer{" "}
                 <span className="mx-2 text-outline-variant opacity-50">
@@ -246,8 +243,7 @@ export default function HeroSection({ preloaderDone }) {
                 Agentic AI Enthusiast
               </p>
               <p
-                className="hero-desc max-w-md font-[family-name:var(--font-body)] text-lg leading-relaxed text-on-surface-variant/90"
-                style={{ opacity: 0 }}
+                className={`hero-desc max-w-md font-[family-name:var(--font-body)] text-lg leading-relaxed text-on-surface-variant/90 transition-opacity duration-700 delay-100 ${headlineRevealed ? 'opacity-90' : 'opacity-0'}`}
               >
                 Building real-world apps | Automation Workflows | Prompt
                 Engineer. Transforming ideas into fluid digital experiences.
@@ -259,8 +255,7 @@ export default function HeroSection({ preloaderDone }) {
               <a
                 ref={ctaRef1}
                 href="#contact"
-                className="hero-cta flex items-center gap-3 bg-gradient-to-r from-primary-container to-secondary-container text-on-surface px-8 py-4 rounded-xl font-[family-name:var(--font-label)] text-sm uppercase tracking-widest font-black hover:shadow-[0_0_30px_rgba(80,143,248,0.4)] transition-all solaris-transition active:scale-95"
-                style={{ opacity: 0 }}
+                className={`hero-cta flex items-center gap-3 bg-gradient-to-r from-primary-container to-secondary-container text-on-surface px-8 py-4 rounded-xl font-[family-name:var(--font-label)] text-sm uppercase tracking-widest font-black hover:shadow-[0_0_30px_rgba(80,143,248,0.4)] transition-all solaris-transition active:scale-95 ${headlineRevealed ? 'opacity-100' : 'opacity-0'}`}
               >
                 <span>Let&apos;s Talk</span>
                 <span className="material-symbols-outlined text-lg">
@@ -270,8 +265,7 @@ export default function HeroSection({ preloaderDone }) {
               <a
                 ref={ctaRef2}
                 href="#work"
-                className="hero-cta px-8 py-4 rounded-xl border border-outline-variant/20 text-on-surface font-[family-name:var(--font-label)] text-sm uppercase tracking-widest font-black hover:bg-surface-container-high/40 transition-all solaris-transition backdrop-blur-sm"
-                style={{ opacity: 0 }}
+                className={`hero-cta px-8 py-4 rounded-xl border border-outline-variant/20 text-on-surface font-[family-name:var(--font-label)] text-sm uppercase tracking-widest font-black hover:bg-surface-container-high/40 transition-all solaris-transition backdrop-blur-sm ${headlineRevealed ? 'opacity-100' : 'opacity-0'}`}
               >
                 View My Work
               </a>
@@ -308,12 +302,10 @@ export default function HeroSection({ preloaderDone }) {
 
               {/* Orbital Rings */}
               <div
-                className="hero-ring absolute w-[28rem] h-[28rem] rounded-full border border-outline-variant/10 rotate-45 pointer-events-none"
-                style={{ opacity: 0 }}
+                className={`hero-ring absolute w-[28rem] h-[28rem] rounded-full border border-outline-variant/10 rotate-45 pointer-events-none transition-opacity duration-1000 ${headlineRevealed ? 'opacity-100' : 'opacity-0'}`}
               />
               <div
-                className="hero-ring absolute w-[32rem] h-[32rem] rounded-full border border-outline-variant/5 -rotate-12 pointer-events-none"
-                style={{ opacity: 0 }}
+                className={`hero-ring absolute w-[32rem] h-[32rem] rounded-full border border-outline-variant/5 -rotate-12 pointer-events-none transition-opacity duration-1000 delay-200 ${headlineRevealed ? 'opacity-100' : 'opacity-0'}`}
               />
             </div>
           </div>
@@ -338,8 +330,7 @@ export default function HeroSection({ preloaderDone }) {
             {stats.map((stat, i) => (
               <div
                 key={i}
-                className="stat-item bg-surface-container-low p-8 flex flex-col gap-2"
-                style={{ opacity: 0 }}
+                className={`stat-item bg-surface-container-low p-8 flex flex-col gap-2 transition-all duration-700 ${headlineRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
               >
                 <span className="font-[family-name:var(--font-headline)] text-4xl font-bold text-primary">
                   {stat.value}

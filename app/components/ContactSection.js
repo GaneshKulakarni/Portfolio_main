@@ -207,7 +207,7 @@ export default function ContactSection() {
       </div>
 
       {/* Header */}
-      <div className="contact-header relative z-10 text-center mb-16 max-w-4xl mx-auto" style={{ opacity: 0 }}>
+      <div className="contact-header relative z-10 text-center mb-16 max-w-4xl mx-auto">
         <span className="font-[family-name:var(--font-label)] text-xs uppercase tracking-[0.2em] text-primary mb-4 block">
           Let&apos;s Connect
         </span>
@@ -224,7 +224,7 @@ export default function ContactSection() {
       </div>
 
       {/* Contact Form */}
-      <div className="contact-form-wrapper relative z-10 w-full max-w-[600px] mx-auto" style={{ opacity: 0 }}>
+      <div className="contact-form-wrapper relative z-10 w-full max-w-[600px] mx-auto">
         <div className="p-8 md:p-10 rounded-xl bg-on-surface/5 backdrop-blur-[20px] border border-outline-variant/20 shadow-2xl">
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

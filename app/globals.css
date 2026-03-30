@@ -353,14 +353,6 @@ body {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.hero-subtitle,
-.hero-desc,
-.hero-status,
-.hero-cta,
-.hero-image-wrapper,
-.hero-ring,
-.hero-line,
-.stat-item,
 .card,
 .about-code-card,
 .about-content,
