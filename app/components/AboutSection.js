@@ -28,12 +28,8 @@ const stats = [
 
 export default function AboutSection() {
   const sectionRef = useRef(null);
-  const cvBtnRef = useRef(null);
 
-  // Auto text reveal for data-reveal elements
   useTextReveal(sectionRef);
-  // Magnetic hover on CTA
-  useMagneticHover(cvBtnRef);
 
   // GSAP scroll animations
   useEffect(() => {
@@ -294,8 +290,9 @@ export default function AboutSection() {
           </div>
 
           <div>
-            <button
-              ref={cvBtnRef}
+            <a
+              href="/logos/Ganesh_Kulakarni_Resume_Full_Stack_Development (1).docx"
+              download="Ganesh_Kulkarni_Resume.docx"
               className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-primary-container to-secondary-container rounded-xl text-on-surface font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all solaris-transition overflow-hidden"
             >
               <span className="relative z-10">Download CV</span>
@@ -303,7 +300,7 @@ export default function AboutSection() {
                 download
               </span>
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            </button>
+            </a>
           </div>
         </div>
       </div>
