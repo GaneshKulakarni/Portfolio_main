@@ -41,22 +41,29 @@ yarn-error.log*
 next-env.d.ts
 
 # agent
-.agent
-.agent/*
-.gemini
-.antigravity
+.agent/
+.gemini/
+.antigravity/
 .antigravityignore
+.planning/
+brain/
+.system_generated/
+artifacts/
 
-# local logs
-*.log
-logs
-.system_generated
-artifacts
+# Implementation and management files
 implementation_plan.md
 task.md
 walkthrough.md
+CLAUDE.md
 claude.md
+AGENTS.md
 agent.md
-.agent/*
-.agent
+AGENT.md
+project_info.md
+notes.md
+scratchpad.md
+
+# local logs
+*.log
+logs/
 
