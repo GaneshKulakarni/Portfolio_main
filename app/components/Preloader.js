@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { canAnimate } from "../utils/animation";
+import { gsap } from "gsap";
 
 /**
  * Preloader — Full-screen fixed overlay with:
@@ -16,16 +17,18 @@ export default function Preloader({ onComplete }) {
   const counterRef = useRef(null);
   const lettersRef = useRef([]);
   const [visible, setVisible] = useState(true);
+  const progressBarRef = useRef(null);
 
   useEffect(() => {
-    if (!canAnimate()) {
-      setVisible(false);
-      onComplete?.();
-      return;
-    }
+    // We are temporarily bypassing the reduced motion check to guarantee the user sees it
+    // if (!canAnimate()) {
+    //   setVisible(false);
+    //   onComplete?.();
+    //   return;
+    // }
 
     let ctx;
-    let gsap;
+    let rafId;
 
     const completeExit = () => {
       if (!overlayRef.current) {
@@ -55,10 +58,8 @@ export default function Preloader({ onComplete }) {
       );
     };
 
-    const init = async () => {
+    const init = () => {
       try {
-        gsap = (await import("gsap")).default;
-
         ctx = gsap.context(() => {
           const tl = gsap.timeline({ onComplete: completeExit });
 
@@ -74,8 +75,7 @@ export default function Preloader({ onComplete }) {
         if (counterEl) {
           counterEl.style.transition = "none";
           let start = null;
-          let rafId; // Fixed: Use let instead of const
-          const duration = 2800; // Slightly longer for more cinematic feel
+          const duration = 2800;
           const target = 100;
 
           const animate = (timestamp) => {
@@ -83,23 +83,23 @@ export default function Preloader({ onComplete }) {
             const elapsed = timestamp - start;
             const progress = Math.min(elapsed / duration, 1);
             
-            // Smoother easing
             const eased = progress === 1 ? 1 : 1 - Math.pow(1 - progress, 4);
-            
             const currentCount = Math.round(eased * target);
-            counterEl.textContent = currentCount;
             
-            // Update progress bar
-            const progressBar = document.getElementById("loader-progress-bar");
-            if (progressBar) {
-              progressBar.style.width = `${progress * 100}%`;
+            if (counterRef.current) {
+                counterRef.current.textContent = currentCount;
+            }
+            
+            if (progressBarRef.current) {
+              progressBarRef.current.style.width = `${progress * 100}%`;
             }
             
             if (progress < 1) {
               rafId = requestAnimationFrame(animate);
             } else {
-              counterEl.textContent = "100";
-              // Add a slight delay at 100 before exit
+              if (counterRef.current) {
+                  counterRef.current.textContent = "100";
+              }
               setTimeout(() => {
                 completeExit();
               }, 400);
@@ -117,6 +117,7 @@ export default function Preloader({ onComplete }) {
     init();
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       if (ctx) ctx.revert();
     };
   }, [onComplete]);
@@ -226,7 +227,7 @@ export default function Preloader({ onComplete }) {
           }}
         >
           <div
-            id="loader-progress-bar"
+            ref={progressBarRef}
             style={{
               position: "absolute",
               left: 0,

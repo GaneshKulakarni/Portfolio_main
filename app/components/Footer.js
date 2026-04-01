@@ -318,12 +318,22 @@ export default function Footer() {
 
   return (
     <footer ref={footerRef} className="relative w-full overflow-hidden">
-      {/* Gradient top border */}
-      <div
-        ref={topLineRef}
-        className="h-px w-full bg-gradient-to-r from-transparent via-primary to-secondary"
-        style={{ transform: "scaleX(0)" }}
-      />
+      {/* Top Border with Animated Spark */}
+      <div className="relative w-full h-px bg-surface-variant/10">
+        {/* Gradient solid line (reveals on scroll) */}
+        <div
+          ref={topLineRef}
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-secondary"
+          style={{ transform: "scaleX(0)", transformOrigin: "left" }}
+        />
+        
+        {/* Flowing Light Spark Beam */}
+        <div 
+          className="absolute top-[-1px] left-0 h-[2px] w-56 bg-gradient-to-r from-transparent via-white to-transparent
+                     drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]
+                     animate-spark pointer-events-none" 
+        />
+      </div>
 
       {/* Decorative background blobs */}
       <div className="footer-deco absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
@@ -393,14 +403,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="pt-8 border-t border-outline-variant/10">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <p className="footer-copyright font-[family-name:var(--font-body)] text-xs text-on-surface-variant/60">
+          {/* Bottom Bar — extra pb-24 on mobile prevents Safari bottom nav overlay */}
+          <div className="pt-8 pb-24 sm:pb-8 border-t border-outline-variant/10">
+            <div className="flex justify-center items-center">
+              <p className="footer-copyright font-[family-name:var(--font-body)] text-xs text-on-surface-variant/60 text-center">
                 © {new Date().getFullYear()} Ganesh Kulkarni. All rights reserved.
-              </p>
-              <p className="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-widest text-on-surface-variant/40">
-                Built for the cinematic web
               </p>
             </div>
           </div>

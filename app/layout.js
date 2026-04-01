@@ -53,8 +53,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body className="bg-surface-container-lowest text-on-surface font-[family-name:var(--font-body)] selection:bg-primary/30 overflow-x-hidden antialiased">
-        {children}
+      <body className="bg-surface-container-lowest text-on-surface font-[family-name:var(--font-body)] selection:bg-primary/30 antialiased overflow-x-hidden">
+        <div className="relative flex flex-col min-h-screen w-full overflow-x-hidden">
+          {children}
+        </div>
       </body>
     </html>
   );

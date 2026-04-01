@@ -205,9 +205,15 @@ export default function ExperienceSection() {
         const cards = sectionRef.current.querySelectorAll(".timeline-entry");
         cards.forEach((card, i) => {
           const isLeft = i % 2 === 0;
+          const isDesktop = window.innerWidth >= 768;
           gsap.fromTo(
             card,
-            { opacity: 0, y: 40, x: isLeft ? -60 : 60, scale: 0.95 },
+            { 
+              opacity: 0, 
+              y: 40, 
+              x: isDesktop ? (isLeft ? -60 : 60) : 0, 
+              scale: 0.95 
+            },
             {
               opacity: 1,
               y: 0,
@@ -348,13 +354,6 @@ export default function ExperienceSection() {
                 >
                   {exp.side === "right" && <TimelineCard exp={exp} />}
                 </div>
-
-                {/* Mobile fallback for right-side items */}
-                {exp.side === "right" && (
-                  <div className="w-full md:hidden order-2">
-                    <TimelineCard exp={exp} />
-                  </div>
-                )}
 
                 {/* Date label removed to prevent overlap and redundancy */}
               </div>
