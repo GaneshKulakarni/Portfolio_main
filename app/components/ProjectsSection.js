@@ -46,7 +46,7 @@ function ProjectCard({ project }) {
     const gsap = (await import("gsap")).default;
 
     if (overlayRef.current) gsap.to(overlayRef.current, { clipPath: "inset(0 0% 0 0)", ease: "power3.inOut", duration: 0.5 });
-    if (titleRef.current) gsap.to(titleRef.current, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" });
+    if (titleRef.current) gsap.to(titleRef.current, { opacity: 1, duration: 0.4, ease: "power3.out" });
     if (tagsRef.current) {
       const tags = tagsRef.current.querySelectorAll(".project-tag");
       gsap.fromTo(tags, { opacity: 0, y: 8 }, { opacity: 1, y: 0, stagger: 0.05, duration: 0.3, ease: "power2.out" });
@@ -58,7 +58,7 @@ function ProjectCard({ project }) {
     if (!canAnimate()) return;
     const gsap = (await import("gsap")).default;
     if (overlayRef.current) gsap.to(overlayRef.current, { clipPath: "inset(0 100% 0 0)", ease: "power3.inOut", duration: 0.4 });
-    if (titleRef.current) gsap.to(titleRef.current, { y: 20, opacity: 0.7, duration: 0.3 });
+    if (titleRef.current) gsap.to(titleRef.current, { opacity: 0.7, duration: 0.3 });
     if (imgRef.current) gsap.to(imgRef.current, { scale: 1, duration: 0.4, ease: "power2.out" });
   };
 
@@ -76,8 +76,8 @@ function ProjectCard({ project }) {
       </div>
 
       <div className="p-8 flex-grow flex flex-col gap-4">
-        <div className="overflow-hidden">
-          <h3 ref={titleRef} className="font-[family-name:var(--font-headline)] text-2xl font-bold text-on-surface tracking-tight" style={{ transform: "translateY(20px)", opacity: 0.7 }}>
+        <div className="pb-1">
+          <h3 ref={titleRef} className="font-[family-name:var(--font-headline)] text-2xl font-bold text-on-surface tracking-tight" style={{ opacity: 0.7 }}>
             {project.title}
           </h3>
         </div>
