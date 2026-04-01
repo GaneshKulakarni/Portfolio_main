@@ -55,7 +55,7 @@ const bentoItems = [
   },
   {
     value: "AI",
-    label: "Enthusiast",
+    label: "Practitioner",
     size: "",
     type: "metric",
   },
