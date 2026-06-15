@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshDistortMaterial, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
@@ -56,6 +56,12 @@ function OrbitalRing({ radius, color, rotationSpeed, tilt }) {
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
         return geometry;
     }, [points]);
+
+    useEffect(() => {
+        return () => {
+            lineGeometry.dispose();
+        };
+    }, [lineGeometry]);
 
     useFrame((state) => {
         if (ringRef.current) {

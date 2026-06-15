@@ -65,6 +65,14 @@ function Monitor() {
     monitorRef.current.scale.set(breath, breath, breath);
   });
 
+  useEffect(() => {
+    return () => {
+      bodyMaterial.dispose();
+      screenMaterial.dispose();
+      bezelMaterial.dispose();
+    };
+  }, [bodyMaterial, screenMaterial, bezelMaterial]);
+
   return (
     <group ref={monitorRef} position={[0, 0.15, 0]}>
       {/* Screen bezel (outer frame) */}
@@ -437,7 +445,7 @@ export default function SkillsOrbit() {
         camera={{ position: [0, 2, 7], fov: 50 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
-        shadows
+        shadows={{ type: THREE.PCFShadowMap }}
         style={{ background: "transparent" }}
       >
         <Scene />
