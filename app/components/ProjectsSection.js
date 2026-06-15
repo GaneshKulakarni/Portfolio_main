@@ -226,13 +226,13 @@ function ProjectCard({ project }) {
   return (
     <article
       ref={cardRef}
-      className="card relative flex-shrink-0 w-[85vw] md:w-[500px] flex flex-col bg-surface-container border border-outline-variant/20 rounded-xl overflow-hidden shadow-2xl group project-card-v2 rotating-border-hover"
+      className="card relative flex-shrink-0 w-[85vw] md:w-[500px] flex flex-col bg-surface-container border border-outline-variant/20 rounded-xl shadow-2xl group project-card-v2 rotating-border-hover pop-3d-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Padded Content Wrapper for the Preview Image */}
       <div className="pt-8 px-8 w-full">
-        <div className="aspect-video w-full overflow-hidden relative flex items-center justify-center bg-black/20 rounded-lg holographic-image-container">
+        <div className="aspect-video w-full overflow-hidden relative flex items-center justify-center bg-black/20 rounded-lg holographic-image-container pop-3d-image">
           {project.image ? (
             <img ref={imgRef} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-700" src={project.image} alt={project.title} loading="eager" />
           ) : (
