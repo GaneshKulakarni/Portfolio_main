@@ -595,7 +595,11 @@ body.gsap-ready .hero-image-wrapper {
    ======================================== */
 
 .pop-3d-card {
-  perspective: 1000px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.pop-3d-parent {
   transform-style: preserve-3d;
 }
 
@@ -605,12 +609,13 @@ body.gsap-ready .hero-image-wrapper {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.pop-3d-card:hover .pop-3d-image {
-  transform: translateZ(30px) translateY(-10px) rotateX(4deg);
+.group:hover .pop-3d-image {
+  transform: translateZ(50px) translateY(-15px) rotateX(8deg);
   box-shadow: 
-    0 20px 35px rgba(0, 0, 0, 0.6), 
-    0 0 20px rgba(172, 199, 255, 0.25);
+    0 25px 50px rgba(0, 0, 0, 0.7), 
+    0 0 30px rgba(172, 199, 255, 0.3);
 }
+
 
 
 
