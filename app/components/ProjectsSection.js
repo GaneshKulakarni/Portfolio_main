@@ -232,7 +232,7 @@ function ProjectCard({ project }) {
     >
       {/* Padded Content Wrapper for the Preview Image */}
       <div className="pt-8 px-8 w-full">
-        <div className="aspect-video w-full overflow-hidden relative flex items-center justify-center bg-black/20 rounded-lg">
+        <div className="aspect-video w-full overflow-hidden relative flex items-center justify-center bg-black/20 rounded-lg holographic-image-container">
           {project.image ? (
             <img ref={imgRef} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-700" src={project.image} alt={project.title} loading="eager" />
           ) : (
