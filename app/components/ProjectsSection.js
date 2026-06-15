@@ -228,29 +228,32 @@ function ProjectCard({ project }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="aspect-video w-full overflow-hidden relative flex items-center justify-center bg-black/20">
-        {project.image ? (
-          <img ref={imgRef} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-700" src={project.image} alt={project.title} loading="eager" />
-        ) : (
-          <div ref={imgRef} className="w-full h-full relative flex items-center justify-center transition-transform duration-700 select-none" style={{ background: `linear-gradient(135deg, ${project.color}10, ${project.color}30)` }}>
-            {/* Ambient blur circle */}
-            <div className="absolute w-24 h-24 rounded-full filter blur-xl opacity-40 animate-pulse-glow" style={{ backgroundColor: project.color }} />
-            {/* Tech tag/text indicator in center */}
-            <div className="z-10 flex flex-col items-center px-6 text-center">
-              <span className="font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-extrabold tracking-tight opacity-95 leading-tight" style={{ color: project.color }}>
-                {project.title}
-              </span>
+      {/* Padded Content Wrapper for the Preview Image */}
+      <div className="pt-8 px-8 w-full">
+        <div className="aspect-video w-full overflow-hidden relative flex items-center justify-center bg-black/20 rounded-lg">
+          {project.image ? (
+            <img ref={imgRef} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-700" src={project.image} alt={project.title} loading="eager" />
+          ) : (
+            <div ref={imgRef} className="w-full h-full relative flex items-center justify-center transition-transform duration-700 select-none" style={{ background: `linear-gradient(135deg, ${project.color}10, ${project.color}30)` }}>
+              {/* Ambient blur circle */}
+              <div className="absolute w-24 h-24 rounded-full filter blur-xl opacity-40 animate-pulse-glow" style={{ backgroundColor: project.color }} />
+              {/* Tech tag/text indicator in center */}
+              <div className="z-10 flex flex-col items-center px-6 text-center">
+                <span className="font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-extrabold tracking-tight opacity-95 leading-tight" style={{ color: project.color }}>
+                  {project.title}
+                </span>
+              </div>
+              
+              {/* Subtly animated decorative grid or lines */}
+              <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:16px_16px]" />
             </div>
-            
-            {/* Subtly animated decorative grid or lines */}
-            <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:16px_16px]" />
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent opacity-60" />
-        <div ref={overlayRef} className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)`, clipPath: "inset(0 100% 0 0)" }} />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent opacity-60" />
+          <div ref={overlayRef} className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)`, clipPath: "inset(0 100% 0 0)" }} />
+        </div>
       </div>
 
-      <div className="p-8 flex-grow flex flex-col gap-4">
+      <div className="px-8 pb-8 pt-4 flex-grow flex flex-col gap-4">
         <div className="pb-1">
           <h3 ref={titleRef} className="font-[family-name:var(--font-headline)] text-2xl font-bold text-on-surface tracking-tight" style={{ opacity: 0.7 }}>
             {project.title}
