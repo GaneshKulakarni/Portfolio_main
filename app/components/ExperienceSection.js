@@ -46,7 +46,7 @@ const experiences = [
 
 function TimelineCard({ exp }) {
   return (
-    <div className="timeline-card glass-card p-8 rounded-xl hover:bg-on-surface/[0.08] relative overflow-hidden transition-colors duration-500">
+    <div className="timeline-card glass-card p-8 rounded-xl hover:bg-on-surface/[0.08] relative overflow-hidden transition-colors duration-500 rotating-border-always">
       <div className="flex items-center gap-4 mb-2">
         <div className="w-14 h-14 rounded-lg bg-surface-container-highest flex items-center justify-center border border-outline-variant/30">
           <span

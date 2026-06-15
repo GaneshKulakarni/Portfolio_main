@@ -494,3 +494,66 @@ body.gsap-ready .hero-image-wrapper {
   border: 2px solid #acc7ff;
   pointer-events: none;
 }
+
+/* ========================================
+   ROTATING GRADIENT BORDERS
+   ======================================== */
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes spin-border {
+  0% {
+    --border-angle: 0deg;
+  }
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+.rotating-border-always,
+.rotating-border-hover {
+  position: relative;
+}
+
+.rotating-border-always::before,
+.rotating-border-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.2px; /* Very thin border as requested */
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 70%,
+    var(--color-primary) 85%,
+    var(--color-secondary) 95%,
+    var(--color-primary) 100%
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.rotating-border-always::before {
+  opacity: 1;
+  animation: spin-border 4s linear infinite;
+}
+
+.rotating-border-hover::before {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.rotating-border-hover:hover::before {
+  opacity: 1;
+  animation: spin-border 3s linear infinite;
+}
+

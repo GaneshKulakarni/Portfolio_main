@@ -93,7 +93,7 @@ function EduCard({ edu, index }) {
                 className={`w-full md:w-[320px] ${positions[index] || "md:ml-[15%]"}`}
             >
                 <div
-                    className="relative rounded-2xl overflow-hidden transition-all duration-500 hover:translate-y-[-4px] group"
+                    className="relative rounded-2xl overflow-hidden transition-all duration-500 hover:translate-y-[-4px] group rotating-border-always"
                     style={{
                         background: "rgba(32, 31, 31, 0.7)",
                         backdropFilter: "blur(20px)",

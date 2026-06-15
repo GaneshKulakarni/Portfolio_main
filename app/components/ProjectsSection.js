@@ -224,7 +224,7 @@ function ProjectCard({ project }) {
   return (
     <article
       ref={cardRef}
-      className="card relative flex-shrink-0 w-[85vw] md:w-[500px] flex flex-col bg-surface-container border border-outline-variant/20 rounded-xl overflow-hidden shadow-2xl group project-card-v2"
+      className="card relative flex-shrink-0 w-[85vw] md:w-[500px] flex flex-col bg-surface-container border border-outline-variant/20 rounded-xl overflow-hidden shadow-2xl group project-card-v2 rotating-border-hover"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

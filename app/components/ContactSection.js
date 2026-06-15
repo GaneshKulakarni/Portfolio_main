@@ -120,7 +120,7 @@ export default function ContactSection() {
       </div>
 
       <div className="contact-form-wrapper relative z-10 w-full max-w-xl mx-auto">
-        <div className="p-6 sm:p-8 md:p-10 rounded-2xl bg-surface-container border border-outline-variant/20 shadow-2xl backdrop-blur-xl">
+        <div className="p-6 sm:p-8 md:p-10 rounded-2xl bg-surface-container border border-outline-variant/20 shadow-2xl backdrop-blur-xl rotating-border-always">
           <form
             ref={formRef}
             onSubmit={handleSubmit}
