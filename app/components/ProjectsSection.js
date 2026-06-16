@@ -465,7 +465,7 @@ export default function ProjectsSection() {
             Contributed Work
           </h2>
           <p className="text-on-surface-variant text-lg max-w-xl font-light leading-relaxed">
-            Collaborations, open-source involvement, and forked ecosystems I've refined or added functionality to.
+            Collaborations, open-source involvement, and forked ecosystems I&apos;ve refined or added functionality to.
           </p>
         </div>
 

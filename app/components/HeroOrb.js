@@ -84,10 +84,15 @@ function Particles() {
 
     const positions = useMemo(() => {
         const pos = new Float32Array(count * 3);
+        let seed = 123;
+        const random = () => {
+            const x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        };
         for (let i = 0; i < count; i++) {
-            pos[i * 3] = (Math.random() - 0.5) * 10;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-            pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
+            pos[i * 3] = (random() - 0.5) * 10;
+            pos[i * 3 + 1] = (random() - 0.5) * 10;
+            pos[i * 3 + 2] = (random() - 0.5) * 10;
         }
         return pos;
     }, []);
