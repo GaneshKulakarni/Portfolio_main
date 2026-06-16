@@ -430,7 +430,7 @@ body.gsap-ready .hero-image-wrapper {
 .featured-projects {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .cards-wrapper {
@@ -447,12 +447,7 @@ body.gsap-ready .hero-image-wrapper {
 
 .card {
   flex-shrink: 0;
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.card:hover {
-  /* Only individual card transforms */
-  transform: translateY(-8px);
+  /* Lift is handled by the inner .pop-3d-image to avoid clipping conflicts */
 }
 
 /* ========================================
@@ -595,25 +590,24 @@ body.gsap-ready .hero-image-wrapper {
    ======================================== */
 
 .pop-3d-card {
-  perspective: 1200px;
-  transform-style: preserve-3d;
+  /* perspective retained for future use; preserve-3d removed since rotateX is not active */
 }
 
 .pop-3d-parent {
-  transform-style: preserve-3d;
+  /* preserve-3d removed — no longer needed without rotateX child transforms */
 }
 
 .pop-3d-image {
-  transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .group:hover .pop-3d-image {
-  transform: translateY(-12px) scale(1.03) rotateX(4deg);
+  /* rotateX removed: combining overflow:hidden + rotateX causes 2D clip rect to cut off image in 3D space */
+  transform: translateY(-14px) scale(1.04);
   box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.6), 
-    0 0 25px rgba(172, 199, 255, 0.25);
+    0 22px 44px rgba(0, 0, 0, 0.65), 
+    0 0 28px rgba(172, 199, 255, 0.28);
 }
 
 .pop-3d-image img {
