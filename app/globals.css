@@ -447,7 +447,12 @@ body.gsap-ready .hero-image-wrapper {
 
 .card {
   flex-shrink: 0;
-  /* Lift is handled by the inner .pop-3d-image to avoid clipping conflicts */
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
 }
 
 /* ========================================
@@ -603,8 +608,11 @@ body.gsap-ready .hero-image-wrapper {
 }
 
 .group:hover .pop-3d-image {
-  /* rotateX removed: combining overflow:hidden + rotateX causes 2D clip rect to cut off image in 3D space */
-  transform: translateY(-14px) scale(1.04);
+  /* Only translateY on the container — no scale here.
+     Scaling the container with overflow:hidden causes mismatch between
+     local clip bounds and visual rendered size, making edges show through.
+     The scale effect is applied to the img inside instead. */
+  transform: translateY(-12px);
   box-shadow: 
     0 22px 44px rgba(0, 0, 0, 0.65), 
     0 0 28px rgba(172, 199, 255, 0.28);
@@ -617,6 +625,16 @@ body.gsap-ready .hero-image-wrapper {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
+  /* Smooth zoom on hover — img scales inside the fixed-size container.
+     overflow:hidden on the container cleanly crops the zoom at its edges. */
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: center center;
+}
+
+.group:hover .pop-3d-image img {
+  /* Scale the img directly — NOT the container — so overflow:hidden
+     clips at the container's exact fixed bounds with no edge artifacts. */
+  transform: scale(1.07) !important;
 }
 
 
