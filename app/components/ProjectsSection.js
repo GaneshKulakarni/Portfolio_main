@@ -212,7 +212,7 @@ function ProjectCard({ project }) {
       const tags = tagsRef.current.querySelectorAll(".project-tag");
       gsap.fromTo(tags, { opacity: 0, y: 8 }, { opacity: 1, y: 0, stagger: 0.05, duration: 0.3, ease: "power2.out" });
     }
-    if (imgRef.current) gsap.to(imgRef.current, { scale: 1.06, duration: 0.6, ease: "power2.out" });
+    // Image scale is handled by CSS (.pop-3d-image hover transform)
   };
 
   const handleMouseLeave = async () => {
@@ -220,7 +220,7 @@ function ProjectCard({ project }) {
     const gsap = (await import("gsap")).default;
     if (overlayRef.current) gsap.to(overlayRef.current, { clipPath: "inset(0 100% 0 0)", ease: "power3.inOut", duration: 0.4 });
     if (titleRef.current) gsap.to(titleRef.current, { opacity: 0.7, duration: 0.3 });
-    if (imgRef.current) gsap.to(imgRef.current, { scale: 1, duration: 0.4, ease: "power2.out" });
+    // Image scale is handled by CSS (.pop-3d-image hover transform)
   };
 
   return (
