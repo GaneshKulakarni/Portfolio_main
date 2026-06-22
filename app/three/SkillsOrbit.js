@@ -9,6 +9,7 @@ import { canAnimate } from "../utils/animation";
 // ─── Tech stack data with logo paths ───────────────────────────────
 const skills = [
   { name: "React", logo: "/logos/react.svg", color: "#61DAFB" },
+  { name: "Next.js", logo: "/logos/nextjs.svg", color: "#FFFFFF" },
   { name: "Node.js", logo: "/logos/nodejs.svg", color: "#68A063" },
   { name: "MongoDB", logo: "/logos/mongodb.svg", color: "#4DB33D" },
   { name: "Express", logo: "/logos/express.svg", color: "#828282" },

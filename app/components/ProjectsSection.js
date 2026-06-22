@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { canAnimate } from "../utils/animation";
 import useTextReveal from "../hooks/useTextReveal";
 
-const featuredProjects = [
+const featuredProjectsCurated = [
   {
     title: "Earth Together",
     description: "Environmental awareness platform promoting sustainability and community engagement.",
@@ -46,7 +46,7 @@ const featuredProjects = [
   }
 ];
 
-const contributedProjects = [
+const contributedProjectsCurated = [
   {
     title: "Blood Connect",
     description: "A platform matching blood donors with local patient queries in real time.",
@@ -195,6 +195,57 @@ const contributedProjects = [
   }
 ];
 
+const languageColors = {
+  JavaScript: "#f59e0b",
+  TypeScript: "#3b82f6",
+  Python: "#10b981",
+  HTML: "#f97316",
+  CSS: "#8b5cf6",
+  Java: "#ef4444",
+  Go: "#00ADD8",
+  Rust: "#dea584",
+  "C++": "#f34b7d",
+  C: "#555555",
+  "C#": "#178600",
+  PHP: "#4F5D95",
+  Ruby: "#701516",
+  Shell: "#89e051",
+  Swift: "#F05138",
+  Kotlin: "#A97BFF",
+  Dart: "#00B4AB",
+};
+
+function getSeededColor(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colors = [
+    "#ef4444", "#f97316", "#f59e0b", "#10b981", 
+    "#06b6d4", "#3b82f6", "#6366f1", "#8b5cf6", 
+    "#d946ef", "#ec4899", "#14b8a6", "#a855f7"
+  ];
+  const index = Math.abs(hash) % colors.length;
+  return colors[index];
+}
+
+function getRepoNameFromUrl(url) {
+  if (!url) return "";
+  const parts = url.split("/");
+  return parts[parts.length - 1].toLowerCase();
+}
+
+// Map curated projects by repository name
+const curatedMap = {};
+featuredProjectsCurated.forEach(p => {
+  const repoName = getRepoNameFromUrl(p.github);
+  if (repoName) curatedMap[repoName] = { ...p, isFeatured: true, curated: true };
+});
+contributedProjectsCurated.forEach(p => {
+  const repoName = getRepoNameFromUrl(p.github);
+  if (repoName) curatedMap[repoName] = { ...p, isFeatured: false, curated: true };
+});
+
 function ProjectCard({ project }) {
   const cardRef = useRef(null);
   const overlayRef = useRef(null);
@@ -212,7 +263,6 @@ function ProjectCard({ project }) {
       const tags = tagsRef.current.querySelectorAll(".project-tag");
       gsap.fromTo(tags, { opacity: 0, y: 8 }, { opacity: 1, y: 0, stagger: 0.05, duration: 0.3, ease: "power2.out" });
     }
-    // Image scale is handled by CSS (.pop-3d-image hover transform)
   };
 
   const handleMouseLeave = async () => {
@@ -220,8 +270,9 @@ function ProjectCard({ project }) {
     const gsap = (await import("gsap")).default;
     if (overlayRef.current) gsap.to(overlayRef.current, { clipPath: "inset(0 100% 0 0)", ease: "power3.inOut", duration: 0.4 });
     if (titleRef.current) gsap.to(titleRef.current, { opacity: 0.7, duration: 0.3 });
-    // Image scale is handled by CSS (.pop-3d-image hover transform)
   };
+
+  const targetLink = project.live || project.github;
 
   return (
     <article
@@ -232,34 +283,46 @@ function ProjectCard({ project }) {
     >
       {/* Padded Content Wrapper for the Preview Image */}
       <div className="pt-8 px-8 w-full pop-3d-parent">
-        <div className={`aspect-video w-full overflow-hidden relative bg-black/20 rounded-lg holographic-image-container pop-3d-image ${!project.image ? "flex items-center justify-center" : ""}`}>
-          {project.image ? (
-            <img ref={imgRef} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-700" src={project.image} alt={project.title} loading="eager" />
-          ) : (
-            <div ref={imgRef} className="w-full h-full relative flex items-center justify-center transition-transform duration-700 select-none" style={{ background: `linear-gradient(135deg, ${project.color}10, ${project.color}30)` }}>
-              {/* Ambient blur circle */}
-              <div className="absolute w-24 h-24 rounded-full filter blur-xl opacity-40 animate-pulse-glow" style={{ backgroundColor: project.color }} />
-              {/* Tech tag/text indicator in center */}
-              <div className="z-10 flex flex-col items-center px-6 text-center">
-                <span className="font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-extrabold tracking-tight opacity-95 leading-tight" style={{ color: project.color }}>
-                  {project.title}
-                </span>
+        <a href={targetLink} target="_blank" rel="noopener noreferrer" className="block w-full">
+          <div className={`aspect-video w-full overflow-hidden relative bg-black/20 rounded-lg holographic-image-container pop-3d-image ${!project.image ? "flex items-center justify-center" : ""}`}>
+            {project.image ? (
+              <img ref={imgRef} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-700" src={project.image} alt={project.title} loading="eager" />
+            ) : (
+              <div ref={imgRef} className="w-full h-full relative flex items-center justify-center transition-transform duration-700 select-none" style={{ background: `linear-gradient(135deg, ${project.color}10, ${project.color}30)` }}>
+                {/* Ambient blur circle */}
+                <div className="absolute w-24 h-24 rounded-full filter blur-xl opacity-40 animate-pulse-glow" style={{ backgroundColor: project.color }} />
+                {/* Tech tag/text indicator in center */}
+                <div className="z-10 flex flex-col items-center px-6 text-center">
+                  <span className="font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-extrabold tracking-tight opacity-95 leading-tight" style={{ color: project.color }}>
+                    {project.title}
+                  </span>
+                </div>
+                
+                {/* Subtly animated decorative grid or lines */}
+                <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:16px_16px]" />
               </div>
-              
-              {/* Subtly animated decorative grid or lines */}
-              <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:16px_16px]" />
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent opacity-60" />
-          <div ref={overlayRef} className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)`, clipPath: "inset(0 100% 0 0)" }} />
-        </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent opacity-60" />
+            <div ref={overlayRef} className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)`, clipPath: "inset(0 100% 0 0)" }} />
+          </div>
+        </a>
       </div>
 
       <div className="px-8 pb-8 pt-4 flex-grow flex flex-col gap-4">
-        <div className="pb-1">
+        <div className="pb-1 flex items-center justify-between gap-4">
           <h3 ref={titleRef} className="font-[family-name:var(--font-headline)] text-2xl font-bold text-on-surface tracking-tight" style={{ opacity: 0.7 }}>
-            {project.title}
+            <a href={targetLink} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-300">
+              {project.title}
+            </a>
           </h3>
+          {project.stars > 0 && (
+            <div className="flex items-center gap-1 px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold rounded-full select-none flex-shrink-0 animate-pulse-glow">
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span>{project.stars}</span>
+            </div>
+          )}
         </div>
         <p className="text-on-surface-variant text-sm line-clamp-2 font-light leading-relaxed h-10">{project.description}</p>
         <div ref={tagsRef} className="flex flex-wrap gap-2 mt-auto">
@@ -285,6 +348,10 @@ export default function ProjectsSection() {
   const sectionRef = useRef(null);
   const featuredWrapperRef = useRef(null);
   const contributedWrapperRef = useRef(null);
+
+  const [featured, setFeatured] = useState(featuredProjectsCurated);
+  const [contributed, setContributed] = useState(contributedProjectsCurated);
+  const [loading, setLoading] = useState(true);
 
   const [scrollState, setScrollState] = useState({
     featured: { canScrollLeft: false, canScrollRight: true, leftCount: 0, rightCount: 0 },
@@ -339,7 +406,6 @@ export default function ProjectsSection() {
       });
     }
 
-    // Clamp values at edges
     if (!canScrollLeft) {
       leftCount = 0;
     }
@@ -386,7 +452,6 @@ export default function ProjectsSection() {
     };
     window.addEventListener("resize", handleResize);
 
-    // Deferred trigger to ensure component rendering and layouts are computed
     const timer = setTimeout(handleResize, 500);
 
     return () => {
@@ -395,6 +460,124 @@ export default function ProjectsSection() {
       window.removeEventListener("resize", handleResize);
       clearTimeout(timer);
     };
+  }, [featured, contributed]);
+
+  useEffect(() => {
+    const CACHE_KEY = "portfolio_github_repos_v2";
+    const CACHE_TIME_KEY = "portfolio_github_repos_time_v2";
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
+
+    const processAndSetProjects = (repos) => {
+      const matchedNames = new Set();
+      
+      const processedRepos = repos.map(repo => {
+        const repoName = repo.name.toLowerCase();
+        const curated = curatedMap[repoName];
+        
+        if (curated) {
+          matchedNames.add(repoName);
+          return {
+            ...curated,
+            github: repo.html_url,
+            live: repo.homepage || curated.live || "",
+            stars: repo.stargazers_count,
+            pushedAt: repo.pushed_at,
+            isFeatured: curated.isFeatured || repo.stargazers_count > 0 || (repo.topics && repo.topics.includes("featured")),
+          };
+        } else {
+          // Format repo name beautifully
+          const title = repo.name
+            .replace(/[-_]/g, " ")
+            .replace(/\b\w/g, c => c.toUpperCase())
+            .replace(/\bAi\b/g, "AI")
+            .replace(/\bUi\b/g, "UI");
+
+          let tags = [];
+          if (repo.topics && repo.topics.length > 0) {
+            tags = repo.topics.slice(0, 4).map(t => {
+              if (t.toLowerCase() === "react") return "React.js";
+              if (t.toLowerCase() === "nextjs") return "Next.js";
+              if (t.toLowerCase() === "tailwindcss") return "TailwindCSS";
+              return t.replace(/\b\w/g, c => c.toUpperCase());
+            });
+          } else if (repo.language) {
+            tags = [repo.language];
+          } else {
+            tags = ["Project"];
+          }
+
+          const color = languageColors[repo.language] || getSeededColor(repo.name);
+
+          return {
+            title,
+            description: repo.description || "A project built with passion and code.",
+            tags,
+            image: null,
+            category: repo.language || "Web App",
+            github: repo.html_url,
+            live: repo.homepage || "",
+            color,
+            stars: repo.stargazers_count,
+            pushedAt: repo.pushed_at,
+            isFeatured: repo.stargazers_count > 0 || (repo.topics && repo.topics.includes("featured")),
+            curated: false,
+          };
+        }
+      });
+
+      const unmatchedProjects = [];
+      Object.keys(curatedMap).forEach(name => {
+        if (!matchedNames.has(name)) {
+          unmatchedProjects.push({
+            ...curatedMap[name],
+            stars: 0,
+            pushedAt: "1970-01-01T00:00:00Z"
+          });
+        }
+      });
+
+      const allProjects = [...processedRepos, ...unmatchedProjects];
+      
+      const newFeatured = allProjects.filter(p => p.isFeatured);
+      const newContributed = allProjects.filter(p => !p.isFeatured);
+
+      // Sort both featured and contributed by push date (recently active first)
+      newFeatured.sort((a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0));
+      newContributed.sort((a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0));
+
+      setFeatured(newFeatured);
+      setContributed(newContributed);
+    };
+
+    const fetchRepos = async () => {
+      try {
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
+        
+        if (cachedData && cachedTime && (Date.now() - parseInt(cachedTime, 10) < CACHE_DURATION)) {
+          const parsedRepos = JSON.parse(cachedData);
+          processAndSetProjects(parsedRepos);
+          setLoading(false);
+          return;
+        }
+
+        const res = await fetch("https://api.github.com/users/GaneshKulakarni/repos?per_page=100&sort=pushed");
+        if (!res.ok) throw new Error("Failed to fetch repositories from GitHub");
+        
+        const repos = await res.json();
+        
+        localStorage.setItem(CACHE_KEY, JSON.stringify(repos));
+        localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
+        
+        processAndSetProjects(repos);
+      } catch (err) {
+        console.error("Error loading GitHub repositories:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRepos();
   }, []);
 
   return (
@@ -449,8 +632,8 @@ export default function ProjectsSection() {
             className="cards-wrapper flex gap-8 px-6 md:px-24 overflow-x-auto pb-12 no-scrollbar"
             style={{ scrollBehavior: 'smooth' }}
           >
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
+            {featured.map((project) => (
+              <ProjectCard key={project.github} project={project} />
             ))}
             {/* Spacer */}
             <div className="flex-shrink-0 w-12" />
@@ -508,8 +691,8 @@ export default function ProjectsSection() {
             className="cards-wrapper flex gap-8 px-6 md:px-24 overflow-x-auto pb-12 no-scrollbar"
             style={{ scrollBehavior: 'smooth' }}
           >
-            {contributedProjects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
+            {contributed.map((project) => (
+              <ProjectCard key={project.github} project={project} />
             ))}
             {/* Spacer */}
             <div className="flex-shrink-0 w-12" />

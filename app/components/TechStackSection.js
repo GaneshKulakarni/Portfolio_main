@@ -63,6 +63,7 @@ const bentoItems = [
 
 const scrollTechs = [
   { name: "React", logo: "/logos/react.svg", color: "bg-blue-500/20" },
+  { name: "Next.js", logo: "/logos/nextjs.svg", color: "bg-neutral-800/20" },
   { name: "Node.js", logo: "/logos/nodejs.svg", color: "bg-green-500/20" },
   { name: "Express", logo: "/logos/express.svg", color: "bg-gray-500/20" },
   { name: "MongoDB", logo: "/logos/mongodb.svg", color: "bg-green-600/20" },
