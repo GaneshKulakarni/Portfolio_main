@@ -293,11 +293,13 @@ export default function AboutSection() {
 
           <div>
             <a
-              href="/logos/Ganesh_Kulakarni_Resume_Full_Stack_Development (1).docx"
+              href="https://docs.google.com/document/d/1M7jfz2aYW6SP7d6ugyQecRzOjC9daN1n/export?format=docx"
               download="Ganesh_Kulkarni_Resume.docx"
+              target="_blank"
+              rel="noopener noreferrer"
               className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-primary-container to-secondary-container rounded-xl text-on-surface font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all solaris-transition overflow-hidden"
             >
-              <span className="relative z-10">Download CV</span>
+              <span className="relative z-10">Download Resume</span>
               <span className="material-symbols-outlined relative z-10 text-xl">
                 download
               </span>

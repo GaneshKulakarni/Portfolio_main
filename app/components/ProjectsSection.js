@@ -6,6 +6,17 @@ import useTextReveal from "../hooks/useTextReveal";
 
 const featuredProjectsCurated = [
   {
+    title: "BYAMN LMS",
+    description: "Production LMS built on Next.js 15 & MongoDB with Google OAuth, Razorpay payment integration, and a self-hosted Piston code execution engine (Docker on Oracle Cloud).",
+    tags: ["Next.js 15", "TypeScript", "MongoDB", "NextAuth.js", "Razorpay"],
+    category: "EdTech",
+    github: "https://github.com/Chirag1724/byamn-lms",
+    live: "https://byamn-lms.vercel.app/",
+    color: "#818cf8",
+    language: "TypeScript",
+    pushedAt: "2026-09-08T00:00:00Z",
+  },
+  {
     title: "Earth Together",
     description: "Full-stack MERN platform with 20+ REST API endpoints (sub-300ms response), gamification engine (eco-points, badges, leaderboards), and real-time habit analytics.",
     tags: ["React.js", "Express", "Node.js", "MongoDB", "JWT"],
@@ -14,6 +25,50 @@ const featuredProjectsCurated = [
     github: "https://github.com/GaneshKulakarni/EarthTogether",
     live: "https://earth-together.vercel.app",
     color: "#4DB33D",
+  },
+  {
+    title: "PharmaLink",
+    description: "Real-time local medicine availability & reservation platform — broadcast your medicine list to every pharmacy around you at once, watch live availability responses come in, and confirm one store for pickup.",
+    tags: ["TypeScript", "React", "Node.js", "Socket.IO", "TailwindCSS"],
+    category: "HealthTech",
+    github: "https://github.com/GaneshKulakarni/PharmaLink",
+    color: "#06b6d4",
+    language: "TypeScript",
+  },
+  {
+    title: "Resume Job Search (n8n)",
+    description: "Automated AI-driven job search workflow built on n8n — analyzes resumes, extracts core competencies, and dynamically scans and alerts for matching job postings in real time.",
+    tags: ["n8n", "AI Workflows", "Automation", "Node.js", "Webhooks"],
+    category: "AI / Automation",
+    github: "https://github.com/GaneshKulakarni/Resume_based_job_search_n8n",
+    color: "#f59e0b",
+  },
+  {
+    title: "Image Generation Website",
+    description: "Full-stack SaaS application that allows users to generate high-quality images from text descriptions using the Clipdrop AI API with credit system and Razorpay payments.",
+    tags: ["React.js", "Express", "MongoDB", "Clipdrop AI", "Razorpay"],
+    image: "/image-gen.png",
+    category: "AI/ML",
+    github: "https://github.com/GaneshKulakarni/Image-Generation-Website",
+    color: "#818cf8",
+  },
+  {
+    title: "Docker AWS Code Editor",
+    description: "Fully containerized, production-deployed collaborative code editor where multiple users write and edit code together in real time — powered by React, Monaco Editor, Yjs CRDTs, Socket.IO, Docker, and AWS ECS.",
+    tags: ["React", "Monaco Editor", "Docker", "AWS ECS", "Socket.IO"],
+    category: "Cloud / DevOps",
+    github: "https://github.com/GaneshKulakarni/Docker-AWS-project",
+    color: "#3b82f6",
+    language: "JavaScript",
+  },
+  {
+    title: "DSA Tracker",
+    description: "Interactive data structures and algorithms progress tracking platform mapping curated problem sheets, algorithmic patterns, and mastery milestones.",
+    tags: ["JavaScript", "React", "Algorithms", "DSA", "Problem Solving"],
+    category: "Education",
+    github: "https://github.com/GaneshKulakarni/DSA-Tracker",
+    color: "#ec4899",
+    language: "JavaScript",
   },
   {
     title: "Carbon Compass",
@@ -27,15 +82,36 @@ const featuredProjectsCurated = [
     language: "TypeScript",
   },
   {
-    title: "BYAMN LMS",
-    description: "Production LMS built on Next.js 15 & MongoDB with Google OAuth, Razorpay payment integration, and a self-hosted Piston code execution engine (Docker on Oracle Cloud).",
-    tags: ["Next.js 15", "TypeScript", "MongoDB", "NextAuth.js", "Razorpay"],
-    category: "EdTech",
-    github: "https://github.com/Chirag1724/byamn-lms",
-    live: "https://byamn-lms.vercel.app/",
-    color: "#818cf8",
-    language: "TypeScript",
+    title: "Covid-19 Data Analytics",
+    description: "End-to-end analytical web dashboard built with Flask, Pandas, NumPy, and Chart.js covering time-series trends, country comparisons, statistical correlations, and interactive heatmaps.",
+    tags: ["Python", "Flask", "Pandas", "NumPy", "Chart.js"],
+    category: "Data Science",
+    github: "https://github.com/GaneshKulakarni/Covid_19_DataAnalysis",
+    color: "#ef4444",
+    language: "Python",
   },
+  {
+    title: "Learn Hub",
+    description: "Ed-tech administrative platform supporting course creation, student enrollment, assignment tracking, and role-based permissions.",
+    tags: ["JavaScript", "React.js", "Node.js", "MongoDB"],
+    image: "/learn-hub.png",
+    category: "EdTech",
+    github: "https://github.com/GaneshKulakarni/EDXcellence_Major_Project",
+    color: "#8b5cf6",
+    language: "JavaScript",
+  },
+  {
+    title: "CNN Image Classification",
+    description: "Deep learning convolutional neural network architecture engineered for multi-class image classification with data augmentation, transfer learning, and evaluation metrics.",
+    tags: ["Python", "Deep Learning", "CNN", "Computer Vision", "PyTorch"],
+    category: "AI/ML",
+    github: "https://github.com/GaneshKulakarni/CNN_Classification",
+    color: "#14b8a6",
+    language: "Python",
+  },
+];
+
+const otherProjectsCurated = [
   {
     title: "Elementum — Trams",
     description: "Pixel-perfect React + TypeScript landing page for a creative agency. Features animated orbital avatars, SVG red-thread connectors, scroll-driven GSAP animations, and a responsive testimonial carousel.",
@@ -45,25 +121,6 @@ const featuredProjectsCurated = [
     color: "#FF5E5B",
     language: "TypeScript",
   },
-  {
-    title: "Image Generation Website",
-    description: "AI-powered platform for creating stunning images using advanced generative models.",
-    tags: ["React.js", "Express", "MongoDB", "AI APIs"],
-    image: "/image-gen.png",
-    category: "AI/ML",
-    github: "https://github.com/GaneshKulakarni/Image-Generation-Website",
-    color: "#818cf8",
-  },
-  {
-    title: "Learn Hub",
-    description: "Ed-tech administrative platform supporting courses, students, and assignment tracking.",
-    tags: ["JavaScript", "React.js", "Node.js", "MongoDB"],
-    image: "/learn-hub.png",
-    category: "EdTech",
-    github: "https://github.com/GaneshKulakarni/EDXcellence_Major_Project",
-    color: "#8b5cf6",
-    language: "JavaScript",
-  }
 ];
 
 const contributedProjectsCurated = [
@@ -255,15 +312,74 @@ function getRepoNameFromUrl(url) {
   return parts[parts.length - 1].toLowerCase();
 }
 
-// Map curated projects by repository name
+function isExcludedRepo(name = "") {
+  if (!name) return false;
+  const n = name.toLowerCase().trim();
+  if (n === "ganeshkulakarni" || n === "ganeshkulakarni/ganeshkulakarni") return true;
+  if (n.includes("portfolio")) return true;
+  return false;
+}
+
+function isTopFeaturedRepo(repoName = "", title = "") {
+  const r = (repoName || "").toLowerCase().replace(/[-_]/g, "");
+  const t = (title || "").toLowerCase().replace(/[-_]/g, "");
+  
+  if (r.includes("byamn") || t.includes("byamn")) return true;
+  if (r.includes("earthtogether") || t.includes("earthtogether")) return true;
+  if (r.includes("pharmalink") || t.includes("pharmalink")) return true;
+  if (r.includes("resumebased") || t.includes("resumebased") || r.includes("n8n") || t.includes("n8n")) return true;
+  if (r.includes("imagegeneration") || t.includes("imagegeneration") || r.includes("imagify") || t.includes("imagify")) return true;
+  if (r.includes("dockeraws") || t.includes("dockeraws")) return true;
+  if (r.includes("dsatracker") || t.includes("dsatracker")) return true;
+  if (r.includes("carboncompass") || t.includes("carboncompass")) return true;
+  if (r.includes("covid") || t.includes("covid")) return true;
+  if (r.includes("edxcellence") || t.includes("learnhub") || r.includes("learnhub")) return true;
+  if (r.includes("cnn") || t.includes("cnn")) return true;
+  
+  return false;
+}
+
+const FEATURED_ORDER = [
+  "byamn",
+  "earthtogether",
+  "pharmalink",
+  "resumebased",
+  "imagegeneration",
+  "dockeraws",
+  "dsatracker",
+  "carboncompass",
+  "covid",
+  "edxcellence",
+  "cnn"
+];
+
+function getFeaturedPriority(name = "", title = "") {
+  const s = ((name || "") + " " + (title || "")).toLowerCase().replace(/[-_]/g, "");
+  for (let i = 0; i < FEATURED_ORDER.length; i++) {
+    if (s.includes(FEATURED_ORDER[i])) return i;
+  }
+  return 99;
+}
+
+// Map curated projects by repository name (excluding portfolio / readme showcase)
 const curatedMap = {};
 featuredProjectsCurated.forEach(p => {
   const repoName = getRepoNameFromUrl(p.github);
-  if (repoName) curatedMap[repoName] = { ...p, isFeatured: true, curated: true };
+  if (repoName && !isExcludedRepo(repoName) && !isExcludedRepo(p.title)) {
+    curatedMap[repoName] = { ...p, section: "featured", isFeatured: true, curated: true };
+  }
+});
+otherProjectsCurated.forEach(p => {
+  const repoName = getRepoNameFromUrl(p.github);
+  if (repoName && !isExcludedRepo(repoName) && !isExcludedRepo(p.title)) {
+    curatedMap[repoName] = { ...p, section: "other", isFeatured: false, curated: true };
+  }
 });
 contributedProjectsCurated.forEach(p => {
   const repoName = getRepoNameFromUrl(p.github);
-  if (repoName) curatedMap[repoName] = { ...p, isFeatured: false, curated: true };
+  if (repoName && !isExcludedRepo(repoName) && !isExcludedRepo(p.title)) {
+    curatedMap[repoName] = { ...p, section: "contributed", isFeatured: false, curated: true };
+  }
 });
 
 function ProjectCard({ project }) {
@@ -367,14 +483,17 @@ function ProjectCard({ project }) {
 export default function ProjectsSection() {
   const sectionRef = useRef(null);
   const featuredWrapperRef = useRef(null);
+  const otherWrapperRef = useRef(null);
   const contributedWrapperRef = useRef(null);
 
   const [featured, setFeatured] = useState(featuredProjectsCurated);
+  const [otherProjects, setOtherProjects] = useState(otherProjectsCurated);
   const [contributed, setContributed] = useState(contributedProjectsCurated);
   const [loading, setLoading] = useState(true);
 
   const [scrollState, setScrollState] = useState({
     featured: { canScrollLeft: false, canScrollRight: true, leftCount: 0, rightCount: 0 },
+    other: { canScrollLeft: false, canScrollRight: true, leftCount: 0, rightCount: 0 },
     contributed: { canScrollLeft: false, canScrollRight: true, leftCount: 0, rightCount: 0 }
   });
   
@@ -452,14 +571,20 @@ export default function ProjectsSection() {
 
   useEffect(() => {
     const featured = featuredWrapperRef.current;
+    const other = otherWrapperRef.current;
     const contributed = contributedWrapperRef.current;
 
     const handleFeaturedScroll = () => checkScroll(featured, "featured");
+    const handleOtherScroll = () => checkScroll(other, "other");
     const handleContributedScroll = () => checkScroll(contributed, "contributed");
 
     if (featured) {
       featured.addEventListener("scroll", handleFeaturedScroll);
       checkScroll(featured, "featured");
+    }
+    if (other) {
+      other.addEventListener("scroll", handleOtherScroll);
+      checkScroll(other, "other");
     }
     if (contributed) {
       contributed.addEventListener("scroll", handleContributedScroll);
@@ -468,6 +593,7 @@ export default function ProjectsSection() {
 
     const handleResize = () => {
       checkScroll(featured, "featured");
+      checkScroll(other, "other");
       checkScroll(contributed, "contributed");
     };
     window.addEventListener("resize", handleResize);
@@ -476,24 +602,39 @@ export default function ProjectsSection() {
 
     return () => {
       if (featured) featured.removeEventListener("scroll", handleFeaturedScroll);
+      if (other) other.removeEventListener("scroll", handleOtherScroll);
       if (contributed) contributed.removeEventListener("scroll", handleContributedScroll);
       window.removeEventListener("resize", handleResize);
       clearTimeout(timer);
     };
-  }, [featured, contributed]);
+  }, [featured, otherProjects, contributed]);
 
   useEffect(() => {
-    const CACHE_KEY = "portfolio_github_repos_v2";
-    const CACHE_TIME_KEY = "portfolio_github_repos_time_v2";
+    const CACHE_KEY = "portfolio_github_repos_v5";
+    const CACHE_STARRED_KEY = "portfolio_github_starred_v5";
+    const CACHE_TIME_KEY = "portfolio_github_repos_time_v5";
     const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
 
-    const processAndSetProjects = (repos) => {
+    const processAndSetProjects = (repos, starred = []) => {
       const matchedNames = new Set();
-      
-      const processedRepos = repos.map(repo => {
+      const starredSet = new Set((starred || []).map(s => s.name?.toLowerCase()));
+
+      // Filter out excluded repositories: portfolio websites & GaneshKulakarni readme showcase
+      const validRepos = repos.filter(repo => !isExcludedRepo(repo.name) && !isExcludedRepo(repo.full_name));
+
+      const processedRepos = validRepos.map(repo => {
         const repoName = repo.name.toLowerCase();
         const curated = curatedMap[repoName];
-        
+        const isFork = Boolean(repo.fork);
+        const title = curated ? curated.title : repo.name
+          .replace(/[-_]/g, " ")
+          .replace(/\b\w/g, c => c.toUpperCase())
+          .replace(/\bAi\b/g, "AI")
+          .replace(/\bUi\b/g, "UI");
+
+        // Top 11 featured projects specified by user
+        const isFeatured = isTopFeaturedRepo(repoName, title);
+
         if (curated) {
           matchedNames.add(repoName);
           return {
@@ -502,16 +643,11 @@ export default function ProjectsSection() {
             live: repo.homepage || curated.live || "",
             stars: repo.stargazers_count,
             pushedAt: repo.pushed_at,
-            isFeatured: curated.isFeatured || repo.stargazers_count > 0 || (repo.topics && repo.topics.includes("featured")),
+            isFork,
+            isFeatured,
+            section: isFeatured ? "featured" : (isFork ? "contributed" : "other"),
           };
         } else {
-          // Format repo name beautifully
-          const title = repo.name
-            .replace(/[-_]/g, " ")
-            .replace(/\b\w/g, c => c.toUpperCase())
-            .replace(/\bAi\b/g, "AI")
-            .replace(/\bUi\b/g, "UI");
-
           let tags = [];
           if (repo.topics && repo.topics.length > 0) {
             tags = repo.topics.slice(0, 4).map(t => {
@@ -539,57 +675,90 @@ export default function ProjectsSection() {
             color,
             stars: repo.stargazers_count,
             pushedAt: repo.pushed_at,
-            isFeatured: repo.stargazers_count > 0 || (repo.topics && repo.topics.includes("featured")),
+            isFork,
+            isFeatured,
             curated: false,
+            section: isFeatured ? "featured" : (isFork ? "contributed" : "other"),
           };
         }
       });
 
       const unmatchedProjects = [];
       Object.keys(curatedMap).forEach(name => {
-        if (!matchedNames.has(name)) {
+        if (!matchedNames.has(name) && !isExcludedRepo(name)) {
+          const item = curatedMap[name];
+          const isFeatured = isTopFeaturedRepo(name, item.title);
           unmatchedProjects.push({
-            ...curatedMap[name],
-            stars: 0,
-            pushedAt: "1970-01-01T00:00:00Z"
+            ...item,
+            stars: item.stars || 0,
+            pushedAt: item.pushedAt || "1970-01-01T00:00:00Z",
+            isFeatured,
+            section: isFeatured ? "featured" : (item.section || (isFeatured ? "featured" : "other"))
           });
         }
       });
 
-      const allProjects = [...processedRepos, ...unmatchedProjects];
+      const allProjects = [...processedRepos, ...unmatchedProjects].filter(
+        p => !isExcludedRepo(p.title) && !isExcludedRepo(getRepoNameFromUrl(p.github))
+      );
       
-      const newFeatured = allProjects.filter(p => p.isFeatured);
-      const newContributed = allProjects.filter(p => !p.isFeatured);
+      const newFeatured = allProjects.filter(p => p.section === "featured" || p.isFeatured);
+      const newOtherProjects = allProjects.filter(p => p.section === "other" || (!p.isFeatured && !p.isFork && p.section !== "contributed"));
+      const newContributed = allProjects.filter(p => p.section === "contributed" || (!p.isFeatured && p.isFork));
 
-      // Sort both featured and contributed by push date (recently active first)
-      newFeatured.sort((a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0));
+      // Sort Featured strictly by the 11 user-specified priority order
+      newFeatured.sort((a, b) => {
+        const pA = getFeaturedPriority(getRepoNameFromUrl(a.github), a.title);
+        const pB = getFeaturedPriority(getRepoNameFromUrl(b.github), b.title);
+        if (pA !== pB) return pA - pB;
+        return new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0);
+      });
+
+      // Sort other and contributed by push date (recently active first)
+      newOtherProjects.sort((a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0));
       newContributed.sort((a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0));
 
       setFeatured(newFeatured);
+      setOtherProjects(newOtherProjects);
       setContributed(newContributed);
     };
 
     const fetchRepos = async () => {
       try {
         const cachedData = localStorage.getItem(CACHE_KEY);
+        const cachedStarred = localStorage.getItem(CACHE_STARRED_KEY);
         const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
         
         if (cachedData && cachedTime && (Date.now() - parseInt(cachedTime, 10) < CACHE_DURATION)) {
           const parsedRepos = JSON.parse(cachedData);
-          processAndSetProjects(parsedRepos);
+          const parsedStarred = cachedStarred ? JSON.parse(cachedStarred) : [];
+          processAndSetProjects(parsedRepos, parsedStarred);
           setLoading(false);
           return;
         }
 
-        const res = await fetch("https://api.github.com/users/GaneshKulakarni/repos?per_page=100&sort=pushed");
-        if (!res.ok) throw new Error("Failed to fetch repositories from GitHub");
-        
-        const repos = await res.json();
-        
+        const [reposRes, starredRes] = await Promise.allSettled([
+          fetch("https://api.github.com/users/GaneshKulakarni/repos?per_page=100&sort=pushed"),
+          fetch("https://api.github.com/users/GaneshKulakarni/starred?per_page=100")
+        ]);
+
+        let repos = [];
+        if (reposRes.status === "fulfilled" && reposRes.value.ok) {
+          repos = await reposRes.value.json();
+        } else {
+          throw new Error("Failed to fetch repositories from GitHub");
+        }
+
+        let starred = [];
+        if (starredRes.status === "fulfilled" && starredRes.value.ok) {
+          starred = await starredRes.value.json();
+        }
+
         localStorage.setItem(CACHE_KEY, JSON.stringify(repos));
+        localStorage.setItem(CACHE_STARRED_KEY, JSON.stringify(starred));
         localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
         
-        processAndSetProjects(repos);
+        processAndSetProjects(repos, starred);
       } catch (err) {
         console.error("Error loading GitHub repositories:", err);
       } finally {
@@ -609,7 +778,7 @@ export default function ProjectsSection() {
             Featured Work
           </h2>
           <p className="text-on-surface-variant text-lg max-w-xl font-light leading-relaxed">
-            Projects that define my craft. A curated collection of digital experiences built from the ground up.
+            Core flagship projects and production systems built from the ground up with modern architectures.
           </p>
         </div>
 
@@ -660,6 +829,67 @@ export default function ProjectsSection() {
           </div>
         </div>
       </div>
+
+      {/* Other Projects / Personal & Practice Section */}
+      {otherProjects.length > 0 && (
+        <div className="flex flex-col gap-12 relative">
+          <div className="px-6 md:px-24">
+            <h2 className="font-[family-name:var(--font-headline)] text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-on-surface mb-2" data-reveal>
+              Other Projects
+            </h2>
+            <p className="text-on-surface-variant text-lg max-w-xl font-light leading-relaxed">
+              Creative experiments, developer tools, and specialized applications exploring diverse frameworks and utilities.
+            </p>
+          </div>
+
+          {/* Carousel Container */}
+          <div className="relative w-full group/carousel">
+            {/* Left Arrow Button */}
+            <button
+              onClick={() => handleScroll("left", otherWrapperRef)}
+              disabled={!scrollState.other.canScrollLeft}
+              className={`absolute left-4 md:left-12 top-[40%] -translate-y-1/2 z-30 w-12 h-12 rounded-full flex items-center justify-center border backdrop-blur-md transition-all duration-300 ${
+                scrollState.other.canScrollLeft
+                  ? "bg-neutral-900/90 border-primary/50 text-primary hover:bg-neutral-800 hover:scale-105 hover:border-primary hover:text-white active:scale-95 shadow-[0_0_15px_rgba(80,143,248,0.35)] cursor-pointer"
+                  : "opacity-0 pointer-events-none"
+              }`}
+              aria-label="Scroll Left"
+            >
+              <span className="font-[family-name:var(--font-headline)] text-base font-bold text-white select-none">
+                {scrollState.other.leftCount}
+              </span>
+            </button>
+
+            {/* Right Arrow Button */}
+            <button
+              onClick={() => handleScroll("right", otherWrapperRef)}
+              disabled={!scrollState.other.canScrollRight}
+              className={`absolute right-4 md:right-12 top-[40%] -translate-y-1/2 z-30 w-12 h-12 rounded-full flex items-center justify-center border backdrop-blur-md transition-all duration-300 ${
+                scrollState.other.canScrollRight
+                  ? "bg-neutral-900/90 border-primary/50 text-primary hover:bg-neutral-800 hover:scale-105 hover:border-primary hover:text-white active:scale-95 shadow-[0_0_15px_rgba(80,143,248,0.35)] cursor-pointer"
+                  : "opacity-0 pointer-events-none"
+              }`}
+              aria-label="Scroll Right"
+            >
+              <span className="font-[family-name:var(--font-headline)] text-base font-bold text-white select-none">
+                {scrollState.other.rightCount}
+              </span>
+            </button>
+
+            <div
+              ref={otherWrapperRef}
+              className="cards-wrapper flex gap-8 px-6 md:px-24 overflow-x-auto pb-12 no-scrollbar"
+              style={{ scrollBehavior: 'smooth' }}
+            >
+              {otherProjects.map((project) => (
+                <ProjectCard key={project.github} project={project} />
+              ))}
+              {/* Spacer */}
+              <div className="flex-shrink-0 w-12" />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Contributed Projects Section */}
       <div className="flex flex-col gap-12 relative">
