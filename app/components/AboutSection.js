@@ -8,22 +8,24 @@ import useMagneticHover from "../hooks/useMagneticHover";
 const codeLines = [
   { num: "01", content: "const dev = {", highlight: "keyword" },
   { num: "02", key: "name", value: '"Ganesh Kulkarni"' },
-  { num: "03", key: "role", value: '"MERN Stack Developer"' },
+  { num: "03", key: "role", value: '"Full Stack Developer Intern @ BYAMN"' },
   { num: "04", content: "skills: [", highlight: "key" },
   {
     num: "05",
-    content: '"React", "Node", "MongoDB", "AI"',
+    content: '"React", "Node", "Next.js", "MongoDB"',
     highlight: "values",
   },
   { num: "06", content: "]," },
-  { num: "07", key: "passion", value: '"Agentic AI & Web apps"' },
-  { num: "08", content: "};" },
+  { num: "07", key: "passion", value: '"Building reliable, user-focused products"' },
+  { num: "08", key: "linkedin", value: '"https://lnkd.in/p/gEWigpk7"' },
+  { num: "09", content: "};" },
 ];
 
 const stats = [
-  { value: "IT", label: "Student" },
-  { value: "MREC", label: "University" },
-  { value: "2", label: "Hackathons" },
+  { value: "IT", label: "Student (2027)" },
+  { value: "BYAMN", label: "Internship" },
+  { value: "Top 1.5K", label: "Google Hackathon" },
+  { value: "40/516", label: "ECWoC Open Source" },
 ];
 
 export default function AboutSection() {
@@ -262,11 +264,11 @@ export default function AboutSection() {
               data-reveal
             >
               I&apos;m an Information Technology student at Malla Reddy
-              Engineering College with a strong passion for full-stack
-              development and AI. I&apos;m currently exploring the MERN stack in
-              depth to build modern web applications, while also diving into
-              Generative AI to understand how intelligent systems can enhance
-              creativity and automation.
+              Engineering College, currently interning as a Full Stack
+              Developer at BYAMN — contributing to a production-grade LMS
+              using Next.js, Node.js, and MongoDB. Passionate about building
+              reliable, user-focused products end-to-end, from REST API design
+              and JWT auth to crafting polished frontend experiences.
             </p>
           </div>
 

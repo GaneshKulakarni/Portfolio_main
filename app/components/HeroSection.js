@@ -209,7 +209,7 @@ export default function HeroSection({ preloaderDone }) {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
               <span className="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant">
-                Available for work
+              Available for Opportunities
               </span>
             </div>
 
@@ -240,13 +240,13 @@ export default function HeroSection({ preloaderDone }) {
                 <span className="mx-2 text-outline-variant opacity-50">
                   ·
                 </span>{" "}
-                Agentic AI Enthusiast
+                Full Stack Intern @ BYAMN
               </p>
               <p
                 className={`hero-desc max-w-md font-[family-name:var(--font-body)] text-lg leading-relaxed text-on-surface-variant/90 transition-opacity duration-700 delay-100 ${headlineRevealed ? 'opacity-90' : 'opacity-0'}`}
               >
-                Building real-world apps | Automation Workflows | Prompt
-                Engineer. Transforming ideas into fluid digital experiences.
+                Building production-grade LMS at BYAMN | REST APIs | JWT Auth.
+                Transforming ideas into fluid digital experiences.
               </p>
             </div>
 

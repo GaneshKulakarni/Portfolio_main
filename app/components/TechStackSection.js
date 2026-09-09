@@ -16,7 +16,7 @@ const bentoItems = [
     iconColor: "text-primary",
     description:
       "Crafting high-fidelity, interactive user interfaces with modern reactivity and cinematic performance.",
-    tags: ["React.js", "JavaScript", "Tailwind CSS", "HTML5", "CSS3"],
+    tags: ["React.js", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS", "HTML5", "CSS3"],
     size: "md:col-span-2",
     type: "tags",
   },
@@ -34,7 +34,7 @@ const bentoItems = [
     title: "Other Tools",
     icon: "build",
     iconColor: "text-tertiary",
-    items: ["Git", "GitHub", "REST APIs", "N8N Automations"],
+    items: ["Git", "GitHub", "Vercel", "Postman", "REST APIs"],
     size: "",
     type: "list",
   },
@@ -45,10 +45,10 @@ const bentoItems = [
     description:
       "Focusing on problem-solving, efficient algorithms, and intelligent systems.",
     tools: [
-      { name: "Agentic AI", color: "bg-primary-container" },
-      { name: "Data Structures", color: "bg-secondary-container" },
-      { name: "Algorithms", color: "bg-tertiary-container" },
-      { name: "LLMs", color: "bg-primary" },
+      { name: "OOP", color: "bg-primary-container" },
+      { name: "MVC Architecture", color: "bg-secondary-container" },
+      { name: "JWT Auth", color: "bg-tertiary-container" },
+      { name: "DSA", color: "bg-primary" },
     ],
     size: "md:col-span-2",
     type: "tools",

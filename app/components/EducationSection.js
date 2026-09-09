@@ -7,7 +7,7 @@ const educationData = [
         period: "2023 — 2027",
         institution: "Malla Reddy Engineering College",
         degree: "B.Tech in Information Technology",
-        gpa: "8.98",
+        gpa: "8.81",
         logo: "/mrec-logo.png",
         color: "#acc7ff",
         glowColor: "rgba(172, 199, 255, 0.25)",
@@ -27,7 +27,7 @@ const educationData = [
     },
     {
         period: "Finished 2021",
-        institution: "Pragana High School",
+        institution: "Pragna High School",
         degree: "Secondary School Education",
         gpa: "10.0 (Perfect)",
         logo: null,
