@@ -37,12 +37,12 @@ const bootLines = [
   "C:\\> ",
 ];
 
-// Scratchpad vectors for zero-allocation occlusion math
+// Scratchpad vectors for zero-allocation dynamic 3D occlusion projection
 const _vBadge = new THREE.Vector3();
-const _vCam = new THREE.Vector3();
-const _vMon = new THREE.Vector3(0, 0, 0);
-const _dirM = new THREE.Vector3();
-const _dirB = new THREE.Vector3();
+const _vMon = new THREE.Vector3();
+const _vEdge = new THREE.Vector3();
+const _vTop = new THREE.Vector3();
+const _vDepth = new THREE.Vector3();
 
 // ─── Retro White CRT Monitor Component ─────────────────────────────
 function RetroMonitor({ scale = 0.65 }) {
@@ -271,12 +271,13 @@ function RetroMonitor({ scale = 0.65 }) {
 
     if (groupRef.current) {
       const t = state.clock.elapsedTime;
-      groupRef.current.position.y = -0.78 + Math.sin(t * 0.8) * 0.015;
+      // Gentle floating animation centered upward at Y = 0.05
+      groupRef.current.position.y = 0.05 + Math.sin(t * 0.8) * 0.015;
     }
   });
 
   return (
-    <group ref={groupRef} scale={[scale, scale, scale]} position={[0, -0.78, 0]}>
+    <group ref={groupRef} scale={[scale, scale, scale]} position={[0, 0.05, 0]}>
       {/* Base */}
       <mesh
         position={[0, 0.06, 0]}
@@ -385,16 +386,16 @@ function RetroMonitor({ scale = 0.65 }) {
   );
 }
 
-// ─── Orbiting Logos (HTML overlays with Vector-Based 360° Occlusion) ───
+// ─── Orbiting Logos (HTML overlays with Precise Screen-Space Occlusion) ───
 function OrbitingLogos({ radius }) {
   const [hovered, setHovered] = useState(null);
   const rotationRef = useRef(0);
 
-  // Each logo is positioned via world-space math
+  // Each logo is positioned via world-space math (raised upward to Y = 0.5)
   const positionsRef = useRef(
     skills.map((_, i) => {
       const angle = (i / skills.length) * Math.PI * 2;
-      return { x: radius * Math.cos(angle), z: radius * Math.sin(angle), y: -0.32 };
+      return { x: radius * Math.cos(angle), z: radius * Math.sin(angle), y: 0.5 };
     })
   );
 
@@ -409,7 +410,7 @@ function OrbitingLogos({ radius }) {
       positionsRef.current[i] = {
         x: radius * Math.cos(angle),
         z: radius * Math.sin(angle),
-        y: -0.32 + floatY,
+        y: 0.5 + floatY,
       };
     });
   });
@@ -441,20 +442,29 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
       meshRef.current.position.set(pos.x, pos.y, pos.z);
 
       if (containerRef.current) {
-        // High-precision vector occlusion from any camera angle:
-        // Test if badge is physically behind the central monitor cabinet
-        _vBadge.set(pos.x, pos.y, pos.z);
-        _vCam.copy(state.camera.position);
+        // Dynamic projected screen-space occlusion:
+        // Monitor cabinet center in world space is (0, 0.93, 0.16)
+        const monNDC = _vMon.set(0, 0.93, 0.16).project(state.camera);
+        const badgeNDC = _vBadge.set(pos.x, pos.y, pos.z).project(state.camera);
 
-        const distBadge = _vBadge.distanceTo(_vCam);
-        const distMon = _vMon.distanceTo(_vCam);
+        // Project cabinet boundary points (width, height, and depth) into camera NDC:
+        // Cabinet half-width (0.78) + badge & label margin (0.52) = 1.30
+        const edgeNDC = _vEdge.set(1.30, 0.93, 0.16).project(state.camera);
+        // Cabinet half-height (0.65) + badge margin (0.50) = 1.15
+        const topNDC = _vTop.set(0, 0.93 + 1.15, 0.16).project(state.camera);
+        // Depth boundary when rotated
+        const depthNDC = _vDepth.set(0, 0.93, 0.16 - 1.25).project(state.camera);
 
-        _dirM.subVectors(_vMon, _vCam).normalize();
-        _dirB.subVectors(_vBadge, _vCam).normalize();
-        const dot = _dirM.dot(_dirB);
+        // Dynamic projected half-width and half-height on screen with safety margin
+        const halfWidthNDC = Math.max(Math.abs(edgeNDC.x - monNDC.x), Math.abs(depthNDC.x - monNDC.x)) + 0.04;
+        const halfHeightNDC = Math.abs(topNDC.y - monNDC.y) + 0.04;
 
-        // When badge is further than monitor and aligned within monitor width angle
-        const isBehind = distBadge > distMon && dot > 0.991;
+        const dx = Math.abs(badgeNDC.x - monNDC.x);
+        const dy = Math.abs(badgeNDC.y - monNDC.y);
+
+        // In 3D: badge is behind monitor if depth is greater than monitor depth,
+        // and its screen position falls within the monitor's silhouette and shoulders from any angle
+        const isBehind = badgeNDC.z > monNDC.z && dx < halfWidthNDC && dy < halfHeightNDC;
 
         const targetOpacity = isBehind ? "0" : "1";
         const targetVisibility = isBehind ? "hidden" : "visible";
@@ -490,7 +500,7 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
             cursor: "pointer",
             opacity: 1,
             visibility: "visible",
-            transition: "opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s ease",
+            transition: "opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s ease",
             filter: isHovered ? `drop-shadow(0 0 14px ${skill.color}90)` : "none",
           }}
         >
@@ -526,18 +536,20 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
               draggable={false}
             />
           </div>
-          {/* Label */}
+          {/* Label — always crisp, fully visible and styled with high-contrast drop shadow */}
           <span
             style={{
-              fontSize: "10px",
-              fontWeight: 600,
-              color: isHovered ? skill.color : "#c2c6d5",
+              fontSize: "11px",
+              fontWeight: 700,
+              color: isHovered ? skill.color : "#e2e8f0",
               textTransform: "uppercase",
               letterSpacing: "0.12em",
               fontFamily: "var(--font-label), sans-serif",
               whiteSpace: "nowrap",
               transition: "color 0.3s ease",
-              textShadow: isHovered ? `0 0 8px ${skill.color}50` : "none",
+              textShadow: "0 2px 10px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.9)",
+              pointerEvents: "none",
+              display: "block",
             }}
           >
             {skill.name}
@@ -551,7 +563,7 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
 // ─── Orbital Ring ──────────────────────────────────────────────────
 function OrbitalRing({ radius }) {
   return (
-    <group position={[0, -0.32, 0]}>
+    <group position={[0, 0.5, 0]}>
       {/* Primary ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <ringGeometry args={[radius - 0.025, radius + 0.025, 128]} />
@@ -613,10 +625,10 @@ function Scene() {
       />
       <pointLight position={[0, 4, 0]} intensity={0.3} color="#60a5fa" />
 
-      {/* Centerpiece: Scaled Retro White CRT Monitor */}
+      {/* Centerpiece: Scaled Retro White CRT Monitor (Raised upward) */}
       <RetroMonitor scale={0.65} />
 
-      {/* Orbital ring */}
+      {/* Orbital ring (Raised upward) */}
       <OrbitalRing radius={orbitRadius} />
 
       {/* Orbiting skill logos */}
@@ -631,7 +643,7 @@ function Scene() {
         minPolarAngle={Math.PI / 4.5}
         maxPolarAngle={Math.PI / 2 + 0.05}
         rotateSpeed={0.65}
-        target={[0, 0, 0]}
+        target={[0, 0.65, 0]}
       />
     </>
   );
@@ -717,16 +729,17 @@ export default function SkillsOrbit() {
       style={{
         width: "100%",
         height: "100%",
-        minHeight: 380,
+        minHeight: 460,
         position: "relative",
+        overflow: "visible",
       }}
     >
       <Canvas
-        camera={{ position: [0, 2.1, 7.2], fov: 42 }}
+        camera={{ position: [0, 2.65, 7.5], fov: 42 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         shadows={{ type: THREE.PCFShadowMap }}
-        style={{ background: "transparent", cursor: "grab" }}
+        style={{ background: "transparent", cursor: "grab", overflow: "visible" }}
       >
         <Scene />
       </Canvas>

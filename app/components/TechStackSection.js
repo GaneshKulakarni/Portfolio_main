@@ -144,11 +144,11 @@ export default function TechStackSection() {
     <section
       ref={sectionRef}
       id="skills"
-      className="relative z-10 pt-40 pb-40"
+      className="relative z-10 pt-32 pb-40"
     >
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
-        <header className="mb-24">
+        <header className="mb-16 md:mb-20">
           <h2
             className="font-[family-name:var(--font-headline)] text-4xl sm:text-5xl md:text-[5rem] font-bold tracking-tighter leading-none mb-4 text-on-surface"
             data-reveal
@@ -159,7 +159,7 @@ export default function TechStackSection() {
         </header>
 
         {/* 3D Skills Orbit */}
-        <div className="orbit-section mb-16 md:mb-20" style={{ height: "clamp(400px, 46vw, 480px)", width: "100%" }}>
+        <div className="orbit-section mb-36 md:mb-44" style={{ height: "clamp(480px, 52vw, 560px)", width: "100%" }}>
           <SkillsOrbit />
         </div>
 
