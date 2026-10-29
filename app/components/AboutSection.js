@@ -290,20 +290,46 @@ export default function AboutSection() {
             ))}
           </div>
 
-          <div>
-            <a
-              href="https://docs.google.com/document/d/1M7jfz2aYW6SP7d6ugyQecRzOjC9daN1n/export?format=docx"
-              download="Ganesh_Kulkarni_Resume.docx"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-primary-container to-secondary-container rounded-xl text-on-surface font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all solaris-transition overflow-hidden"
-            >
-              <span className="relative z-10">Download Resume</span>
-              <span className="material-symbols-outlined relative z-10 text-xl">
-                download
+          <div className="flex flex-wrap gap-6">
+            {/* Full Stack Dev Resume */}
+            <div className="flex flex-col items-center gap-2">
+              <a
+                href="https://docs.google.com/document/d/1M7jfz2aYW6SP7d6ugyQecRzOjC9daN1n/export?format=docx"
+                download="Ganesh_Kulkarni_Resume.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-primary-container to-secondary-container rounded-xl text-on-surface font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all solaris-transition overflow-hidden"
+              >
+                <span className="relative z-10">Download Resume</span>
+                <span className="material-symbols-outlined relative z-10 text-xl">
+                  download
+                </span>
+                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              </a>
+              <span className="font-[family-name:var(--font-headline)] text-sm font-extrabold tracking-wide text-primary uppercase">
+                Full Stack Dev
               </span>
-              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            </a>
+            </div>
+
+            {/* SAP ABAP Resume */}
+            <div className="flex flex-col items-center gap-2">
+              <a
+                href="https://docs.google.com/document/d/1M7jfz2aYW6SP7d6ugyQecRzOjC9daN1n/export?format=docx"
+                download="Ganesh_Kulkarni_SAP_ABAP_Resume.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-secondary-container to-tertiary-container rounded-xl text-on-surface font-bold shadow-lg shadow-secondary/20 hover:shadow-secondary/40 transition-all solaris-transition overflow-hidden"
+              >
+                <span className="relative z-10">Download Resume</span>
+                <span className="material-symbols-outlined relative z-10 text-xl">
+                  download
+                </span>
+                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              </a>
+              <span className="font-[family-name:var(--font-headline)] text-sm font-extrabold tracking-wide text-secondary uppercase">
+                SAP ABAP
+              </span>
+            </div>
           </div>
         </div>
       </div>
