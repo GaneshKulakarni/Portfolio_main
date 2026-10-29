@@ -600,7 +600,7 @@ function OrbitalRing({ radius }) {
 
 // ─── 3D Scene ───────────────────────────────────────────────────────
 function Scene() {
-  const orbitRadius = 3.4;
+  const orbitRadius = 3.0;
 
   return (
     <>
@@ -634,16 +634,16 @@ function Scene() {
       {/* Orbiting skill logos */}
       <OrbitingLogos radius={orbitRadius} />
 
-      {/* Interactive OrbitControls */}
+      {/* Interactive OrbitControls — constrained polar angle so orbit is never clipped when dragging down */}
       <OrbitControls
         enableZoom={false}
         enablePan={false}
         enableDamping
         dampingFactor={0.05}
-        minPolarAngle={Math.PI / 4.5}
+        minPolarAngle={Math.PI / 3.2}
         maxPolarAngle={Math.PI / 2 + 0.05}
         rotateSpeed={0.65}
-        target={[0, 0.65, 0]}
+        target={[0, 0.55, 0]}
       />
     </>
   );
@@ -735,7 +735,7 @@ export default function SkillsOrbit() {
       }}
     >
       <Canvas
-        camera={{ position: [0, 2.65, 7.5], fov: 42 }}
+        camera={{ position: [0, 2.3, 8.2], fov: 40 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         shadows={{ type: THREE.PCFShadowMap }}
@@ -743,12 +743,6 @@ export default function SkillsOrbit() {
       >
         <Scene />
       </Canvas>
-
-      {/* 3D interaction hint pill */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1 rounded-full bg-surface-container-high/60 backdrop-blur-md border border-outline-variant/20 text-[10px] uppercase tracking-widest text-on-surface-variant select-none pointer-events-none">
-        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-        <span>Drag to rotate in 3D</span>
-      </div>
     </div>
   );
 }

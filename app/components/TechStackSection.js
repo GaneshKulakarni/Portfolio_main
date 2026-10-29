@@ -159,7 +159,7 @@ export default function TechStackSection() {
         </header>
 
         {/* 3D Skills Orbit */}
-        <div className="orbit-section mb-36 md:mb-44" style={{ height: "clamp(480px, 52vw, 560px)", width: "100%" }}>
+        <div className="orbit-section mb-32 md:mb-40" style={{ height: "clamp(500px, 54vw, 600px)", width: "100%" }}>
           <SkillsOrbit />
         </div>
 
