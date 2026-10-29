@@ -314,8 +314,8 @@ export default function AboutSection() {
             {/* SAP ABAP Resume */}
             <div className="flex flex-col items-center gap-2">
               <a
-                href="https://docs.google.com/document/d/1M7jfz2aYW6SP7d6ugyQecRzOjC9daN1n/export?format=docx"
-                download="Ganesh_Kulkarni_SAP_ABAP_Resume.docx"
+                href="/resume/GANESH_KULAKARNI_IT_SAP_ABAP_FRESHER_RESUME.pdf"
+                download="GANESH_KULAKARNI_IT_SAP_ABAP_FRESHER_RESUME.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-secondary-container to-tertiary-container rounded-xl text-on-surface font-bold shadow-lg shadow-secondary/20 hover:shadow-secondary/40 transition-all solaris-transition overflow-hidden"
