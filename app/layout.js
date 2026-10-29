@@ -23,7 +23,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Ganesh Kulkarni | Full Stack Developer & UI Architect",
+  title: "Ganesh Kulakarni | Full Stack Developer & UI Architect",
   description:
     "Crafting immersive digital experiences through clean code and cinematic design. Full Stack Developer specializing in React, Node.js, and high-fidelity interfaces.",
   keywords: [
@@ -31,10 +31,10 @@ export const metadata = {
     "React Engineer",
     "UI Architect",
     "Portfolio",
-    "Ganesh Kulkarni",
+    "Ganesh Kulakarni",
   ],
   openGraph: {
-    title: "Ganesh Kulkarni | Full Stack Developer",
+    title: "Ganesh Kulakarni | Full Stack Developer",
     description:
       "Crafting immersive digital experiences through clean code and cinematic design.",
     type: "website",

@@ -353,7 +353,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <div className="font-[family-name:var(--font-headline)] text-xl font-bold text-on-surface tracking-tight leading-none">
-                    Ganesh Kulkarni
+                    Ganesh Kulakarni
                   </div>
                   <div className="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-on-surface-variant mt-0.5">
                     Portfolio
@@ -407,7 +407,7 @@ export default function Footer() {
           <div className="pt-8 pb-24 sm:pb-8 border-t border-outline-variant/10">
             <div className="flex justify-center items-center">
               <p className="footer-copyright font-[family-name:var(--font-body)] text-xs text-on-surface-variant/60 text-center">
-                © {new Date().getFullYear()} Ganesh Kulkarni. All rights reserved.
+                © {new Date().getFullYear()} Ganesh Kulakarni. All rights reserved.
               </p>
             </div>
           </div>

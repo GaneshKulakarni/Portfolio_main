@@ -7,7 +7,7 @@ import useMagneticHover from "../hooks/useMagneticHover";
 
 const codeLines = [
   { num: "01", content: "const dev = {", highlight: "keyword" },
-  { num: "02", key: "name", value: '"Ganesh Kulkarni"' },
+  { num: "02", key: "name", value: '"Ganesh Kulakarni"' },
   { num: "03", key: "role", value: '"Full Stack Developer Intern @ BYAMN"' },
   { num: "04", content: "skills: [", highlight: "key" },
   {
@@ -295,7 +295,7 @@ export default function AboutSection() {
             <div className="flex flex-col items-center gap-2">
               <a
                 href="https://docs.google.com/document/d/1M7jfz2aYW6SP7d6ugyQecRzOjC9daN1n/export?format=docx"
-                download="Ganesh_Kulkarni_Resume.docx"
+                download="Ganesh_Kulakarni_Resume.docx"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative inline-flex items-center gap-4 group px-8 py-4 bg-gradient-to-r from-primary-container to-secondary-container rounded-xl text-on-surface font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all solaris-transition overflow-hidden"

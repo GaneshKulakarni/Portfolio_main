@@ -226,7 +226,7 @@ export default function HeroSection({ preloaderDone }) {
                   transition: "transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease",
                 }}
               >
-                Ganesh Kulkarni
+                Ganesh Kulakarni
               </h1>
             </div>
 
@@ -288,7 +288,7 @@ export default function HeroSection({ preloaderDone }) {
               <div className="hero-image-wrapper relative z-10 w-72 sm:w-80 md:w-96 h-[400px] sm:h-[450px] md:h-[28rem] rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src="/profile-full-image.jpeg"
-                  alt="Ganesh Kulkarni"
+                  alt="Ganesh Kulakarni"
                   className="hero-image w-full h-full object-cover opacity-90"
                   style={{ transform: "scale(1.15)" }}
                 />
