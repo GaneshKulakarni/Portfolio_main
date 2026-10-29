@@ -37,9 +37,16 @@ const bootLines = [
   "C:\\> ",
 ];
 
+// Scratchpad vectors for zero-allocation occlusion math
+const _vBadge = new THREE.Vector3();
+const _vCam = new THREE.Vector3();
+const _vMon = new THREE.Vector3(0, 0, 0);
+const _dirM = new THREE.Vector3();
+const _dirB = new THREE.Vector3();
+
 // ─── Retro White CRT Monitor Component ─────────────────────────────
-function RetroMonitor() {
-  const monitorGroupRef = useRef(null);
+function RetroMonitor({ scale = 0.65 }) {
+  const groupRef = useRef(null);
 
   // 1. Offscreen CRT Canvas & CanvasTexture
   const { canvas, ctx, crtTexture } = useMemo(() => {
@@ -262,15 +269,14 @@ function RetroMonitor() {
     const time = state.clock.elapsedTime * 1000;
     updateTerminal(time);
 
-    if (monitorGroupRef.current) {
+    if (groupRef.current) {
       const t = state.clock.elapsedTime;
-      // Gentle floating animation
-      monitorGroupRef.current.position.y = -1.2 + Math.sin(t * 0.8) * 0.02;
+      groupRef.current.position.y = -0.78 + Math.sin(t * 0.8) * 0.015;
     }
   });
 
   return (
-    <group ref={monitorGroupRef} position={[0, -1.2, 0]}>
+    <group ref={groupRef} scale={[scale, scale, scale]} position={[0, -0.78, 0]}>
       {/* Base */}
       <mesh
         position={[0, 0.06, 0]}
@@ -372,14 +378,14 @@ function RetroMonitor() {
 
       {/* Ground shadow disc */}
       <mesh position={[0, -0.01, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <circleGeometry args={[2.2, 48]} />
+        <circleGeometry args={[2.0, 48]} />
         <meshBasicMaterial color="#000000" transparent opacity={0.45} />
       </mesh>
     </group>
   );
 }
 
-// ─── Orbiting Logos (HTML overlays) ────────────────────────────────
+// ─── Orbiting Logos (HTML overlays with Vector-Based 360° Occlusion) ───
 function OrbitingLogos({ radius }) {
   const [hovered, setHovered] = useState(null);
   const rotationRef = useRef(0);
@@ -388,7 +394,7 @@ function OrbitingLogos({ radius }) {
   const positionsRef = useRef(
     skills.map((_, i) => {
       const angle = (i / skills.length) * Math.PI * 2;
-      return { x: radius * Math.cos(angle), z: radius * Math.sin(angle), y: -0.45 };
+      return { x: radius * Math.cos(angle), z: radius * Math.sin(angle), y: -0.32 };
     })
   );
 
@@ -399,11 +405,11 @@ function OrbitingLogos({ radius }) {
     skills.forEach((_, i) => {
       const baseAngle = (i / skills.length) * Math.PI * 2;
       const angle = baseAngle + rotationRef.current;
-      const floatY = Math.sin(t * (0.8 + i * 0.05) + i * 0.6) * 0.15;
+      const floatY = Math.sin(t * (0.8 + i * 0.05) + i * 0.6) * 0.08;
       positionsRef.current[i] = {
         x: radius * Math.cos(angle),
         z: radius * Math.sin(angle),
-        y: -0.45 + floatY,
+        y: -0.32 + floatY,
       };
     });
   });
@@ -426,12 +432,44 @@ function OrbitingLogos({ radius }) {
 
 function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
   const meshRef = useRef(null);
+  const containerRef = useRef(null);
   const isHovered = hovered === index;
 
-  useFrame(() => {
+  useFrame((state) => {
     if (meshRef.current && positionsRef.current[index]) {
       const pos = positionsRef.current[index];
       meshRef.current.position.set(pos.x, pos.y, pos.z);
+
+      if (containerRef.current) {
+        // High-precision vector occlusion from any camera angle:
+        // Test if badge is physically behind the central monitor cabinet
+        _vBadge.set(pos.x, pos.y, pos.z);
+        _vCam.copy(state.camera.position);
+
+        const distBadge = _vBadge.distanceTo(_vCam);
+        const distMon = _vMon.distanceTo(_vCam);
+
+        _dirM.subVectors(_vMon, _vCam).normalize();
+        _dirB.subVectors(_vBadge, _vCam).normalize();
+        const dot = _dirM.dot(_dirB);
+
+        // When badge is further than monitor and aligned within monitor width angle
+        const isBehind = distBadge > distMon && dot > 0.991;
+
+        const targetOpacity = isBehind ? "0" : "1";
+        const targetVisibility = isBehind ? "hidden" : "visible";
+        const targetPointer = isBehind ? "none" : "auto";
+        const targetScale = isBehind ? "scale(0.7)" : (isHovered ? "scale(1.2)" : "scale(1)");
+
+        if (containerRef.current.style.opacity !== targetOpacity) {
+          containerRef.current.style.opacity = targetOpacity;
+          containerRef.current.style.visibility = targetVisibility;
+          containerRef.current.style.pointerEvents = targetPointer;
+          containerRef.current.style.transform = targetScale;
+        } else if (!isBehind && containerRef.current.style.transform !== targetScale) {
+          containerRef.current.style.transform = targetScale;
+        }
+      }
     }
   });
 
@@ -439,38 +477,40 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
     <mesh ref={meshRef}>
       <sphereGeometry args={[0.01, 4, 4]} />
       <meshBasicMaterial visible={false} />
-      <Html center distanceFactor={9.2} style={{ pointerEvents: "auto" }}>
+      <Html center distanceFactor={8.2} style={{ pointerEvents: "auto" }}>
         <div
+          ref={containerRef}
           onMouseEnter={() => onHover(index)}
           onMouseLeave={() => onHover(null)}
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "8px",
+            gap: "7px",
             cursor: "pointer",
-            transform: isHovered ? "scale(1.25)" : "scale(1)",
-            transition: "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
+            opacity: 1,
+            visibility: "visible",
+            transition: "opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s ease",
             filter: isHovered ? `drop-shadow(0 0 14px ${skill.color}90)` : "none",
           }}
         >
           {/* Logo container */}
           <div
             style={{
-              width: 58,
-              height: 58,
-              borderRadius: "16px",
+              width: 50,
+              height: 50,
+              borderRadius: "14px",
               background: `rgba(${hexToRgb(skill.color)}, 0.12)`,
               border: `1.5px solid ${isHovered ? skill.color : `${skill.color}35`}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "10px",
+              padding: "9px",
               backdropFilter: "blur(10px)",
               boxShadow: isHovered
-                ? `0 0 28px ${skill.color}40, 0 0 54px ${skill.color}20, inset 0 0 14px ${skill.color}10`
-                : `0 4px 20px rgba(0,0,0,0.4)`,
-              transition: "all 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
+                ? `0 0 24px ${skill.color}40, 0 0 48px ${skill.color}20, inset 0 0 12px ${skill.color}10`
+                : `0 4px 16px rgba(0,0,0,0.4)`,
+              transition: "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
             }}
           >
             <img
@@ -511,34 +551,34 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
 // ─── Orbital Ring ──────────────────────────────────────────────────
 function OrbitalRing({ radius }) {
   return (
-    <group position={[0, -0.45, 0]}>
+    <group position={[0, -0.32, 0]}>
       {/* Primary ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[radius - 0.03, radius + 0.03, 128]} />
+        <ringGeometry args={[radius - 0.025, radius + 0.025, 128]} />
         <meshBasicMaterial
           color="#60a5fa"
           transparent
-          opacity={0.2}
+          opacity={0.18}
           side={THREE.DoubleSide}
         />
       </mesh>
-      {/* Outer glow ring */}
+      {/* Outer subtle glow ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[radius - 0.25, radius + 0.25, 128]} />
+        <ringGeometry args={[radius - 0.2, radius + 0.2, 128]} />
         <meshBasicMaterial
           color="#818cf8"
           transparent
-          opacity={0.05}
+          opacity={0.04}
           side={THREE.DoubleSide}
         />
       </mesh>
       {/* Inner subtle orbit track */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[radius - 0.8, radius - 0.78, 128]} />
+        <ringGeometry args={[radius - 0.65, radius - 0.63, 128]} />
         <meshBasicMaterial
           color="#38bdf8"
           transparent
-          opacity={0.08}
+          opacity={0.07}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -548,7 +588,7 @@ function OrbitalRing({ radius }) {
 
 // ─── 3D Scene ───────────────────────────────────────────────────────
 function Scene() {
-  const orbitRadius = 5.2;
+  const orbitRadius = 3.4;
 
   return (
     <>
@@ -573,8 +613,8 @@ function Scene() {
       />
       <pointLight position={[0, 4, 0]} intensity={0.3} color="#60a5fa" />
 
-      {/* Centerpiece: Retro White CRT Monitor */}
-      <RetroMonitor />
+      {/* Centerpiece: Scaled Retro White CRT Monitor */}
+      <RetroMonitor scale={0.65} />
 
       {/* Orbital ring */}
       <OrbitalRing radius={orbitRadius} />
@@ -677,12 +717,12 @@ export default function SkillsOrbit() {
       style={{
         width: "100%",
         height: "100%",
-        minHeight: 650,
+        minHeight: 380,
         position: "relative",
       }}
     >
       <Canvas
-        camera={{ position: [0, 2.8, 10.2], fov: 46 }}
+        camera={{ position: [0, 2.1, 7.2], fov: 42 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         shadows={{ type: THREE.PCFShadowMap }}
@@ -692,7 +732,7 @@ export default function SkillsOrbit() {
       </Canvas>
 
       {/* 3D interaction hint pill */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-high/60 backdrop-blur-md border border-outline-variant/20 text-[10px] uppercase tracking-widest text-on-surface-variant select-none pointer-events-none">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1 rounded-full bg-surface-container-high/60 backdrop-blur-md border border-outline-variant/20 text-[10px] uppercase tracking-widest text-on-surface-variant select-none pointer-events-none">
         <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
         <span>Drag to rotate in 3D</span>
       </div>
