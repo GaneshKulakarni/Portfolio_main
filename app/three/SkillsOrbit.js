@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useMemo, useEffect, useState } from "react";
+import { useRef, useMemo, useEffect, useState, useCallback } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
+import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { canAnimate } from "../utils/animation";
 
@@ -18,181 +18,377 @@ const skills = [
   { name: "JavaScript", logo: "/logos/javascript.svg", color: "#F7DF1E" },
 ];
 
-// ─── 3D Monitor Component ──────────────────────────────────────────
-function Monitor() {
-  const monitorRef = useRef(null);
+// ─── Terminal Boot Lines ───────────────────────────────────────────
+const bootLines = [
+  "ROM BIOS (C) 1989 AMI CORP.",
+  "640KB SYSTEM RAM PASSED",
+  "VIDEO ADAPTER: VGA MONOCHROME PHOSPHOR",
+  "INITIALIZING DISK CONTROLLER... OK",
+  "",
+  "MS-DOS Version 5.00",
+  "C:\\> SET TERM=VT100",
+  "C:\\> RUN DIAGNOSTICS.EXE",
+  "----------------------------------------",
+  "CPU CLOCK      : 33.0 MHz (TURBO ON)",
+  "CRT REFRESH    : 60.0 Hz H-SYNC OK",
+  "MEMORY STATUS  : 655,360 BYTES FREE",
+  "----------------------------------------",
+  "SYSTEM READY.",
+  "C:\\> ",
+];
 
-  const bodyMaterial = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: "#1a1a1a",
-        roughness: 0.85,
-        metalness: 0.2,
-      }),
-    []
-  );
+// ─── Retro White CRT Monitor Component ─────────────────────────────
+function RetroMonitor() {
+  const monitorGroupRef = useRef(null);
 
-  const screenMaterial = useMemo(
-    () =>
-      new THREE.MeshPhysicalMaterial({
-        color: "#0a0a12",
-        roughness: 0.1,
-        metalness: 0.1,
-        reflectivity: 0.8,
-        clearcoat: 1,
-        clearcoatRoughness: 0.1,
-        emissive: "#1a1a3e",
-        emissiveIntensity: 0.15,
-      }),
-    []
-  );
+  // 1. Offscreen CRT Canvas & CanvasTexture
+  const { canvas, ctx, crtTexture } = useMemo(() => {
+    if (typeof document === "undefined") {
+      return { canvas: null, ctx: null, crtTexture: null };
+    }
+    const c = document.createElement("canvas");
+    c.width = 640;
+    c.height = 480;
+    const context = c.getContext("2d");
 
-  const bezelMaterial = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: "#111111",
-        roughness: 0.4,
-        metalness: 0.6,
-      }),
-    []
-  );
+    const texture = new THREE.CanvasTexture(c);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
 
-  // Subtle breathing animation
-  useFrame((state) => {
-    if (!monitorRef.current) return;
-    const t = state.clock.elapsedTime;
-    monitorRef.current.rotation.y = Math.sin(t * 0.3) * 0.03;
-    const breath = 1 + Math.sin(t * 0.6) * 0.005;
-    monitorRef.current.scale.set(breath, breath, breath);
+    return { canvas: c, ctx: context, crtTexture: texture };
+  }, []);
+
+  // 2. Terminal Typing state
+  const stateRef = useRef({
+    currentLine: 0,
+    currentChar: 0,
+    lastTypeTime: 0,
   });
 
+  const updateTerminal = useCallback(
+    (time) => {
+      if (!ctx || !canvas || !crtTexture) return;
+      const s = stateRef.current;
+
+      // Typewriter typing progression
+      if (time - s.lastTypeTime > 35) {
+        if (s.currentLine < bootLines.length - 1) {
+          s.currentChar++;
+          if (s.currentChar > bootLines[s.currentLine].length) {
+            s.currentLine++;
+            s.currentChar = 0;
+          }
+          s.lastTypeTime = time;
+        } else {
+          // Restart typing loop after 8 seconds of idle cursor
+          if (time - s.lastTypeTime > 8000) {
+            s.currentLine = 0;
+            s.currentChar = 0;
+            s.lastTypeTime = time;
+          }
+        }
+      }
+
+      // Background phosphor dark
+      ctx.fillStyle = "#051208";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Radial phosphor CRT glow
+      const radialGrad = ctx.createRadialGradient(
+        canvas.width / 2,
+        canvas.height / 2,
+        80,
+        canvas.width / 2,
+        canvas.height / 2,
+        380
+      );
+      radialGrad.addColorStop(0, "rgba(30, 110, 50, 0.12)");
+      radialGrad.addColorStop(1, "rgba(0, 0, 0, 0.65)");
+      ctx.fillStyle = radialGrad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Green terminal text with glow
+      ctx.font = 'bold 20px "Courier New", Courier, monospace';
+      ctx.fillStyle = "#33ff66";
+      ctx.shadowColor = "#22ff55";
+      ctx.shadowBlur = 8;
+
+      const startX = 42;
+      const startY = 52;
+      const lineHeight = 26;
+
+      for (let i = 0; i <= s.currentLine; i++) {
+        const text =
+          i === s.currentLine && s.currentLine < bootLines.length - 1
+            ? bootLines[i].slice(0, s.currentChar)
+            : bootLines[i];
+        ctx.fillText(text, startX, startY + i * lineHeight);
+      }
+
+      // Blinking cursor
+      if (Math.floor(time / 450) % 2 === 0) {
+        const activeText =
+          s.currentLine < bootLines.length - 1
+            ? bootLines[s.currentLine].slice(0, s.currentChar)
+            : bootLines[s.currentLine];
+        const cursorX = startX + ctx.measureText(activeText).width + 2;
+        const cursorY = startY + s.currentLine * lineHeight - 17;
+        ctx.fillRect(cursorX, cursorY, 12, 20);
+      }
+
+      ctx.shadowBlur = 0;
+
+      // Scanline refresh sweep bar
+      const barY = ((time * 0.12) % (canvas.height + 120)) - 60;
+      const barGrad = ctx.createLinearGradient(0, barY, 0, barY + 60);
+      barGrad.addColorStop(0, "rgba(51, 255, 102, 0)");
+      barGrad.addColorStop(0.5, "rgba(51, 255, 102, 0.08)");
+      barGrad.addColorStop(1, "rgba(51, 255, 102, 0)");
+      ctx.fillStyle = barGrad;
+      ctx.fillRect(0, barY, canvas.width, 60);
+
+      // CRT horizontal raster scanlines
+      ctx.fillStyle = "rgba(0, 0, 0, 0.38)";
+      for (let y = 0; y < canvas.height; y += 4) {
+        ctx.fillRect(0, y, canvas.width, 2);
+      }
+
+      crtTexture.needsUpdate = true;
+    },
+    [canvas, ctx, crtTexture]
+  );
+
+  // 3. Materials
+  const materials = useMemo(() => {
+    const whitePlastic = new THREE.MeshStandardMaterial({
+      color: 0xf0ece5,
+      roughness: 0.45,
+      metalness: 0.05,
+    });
+
+    const darkBezelInset = new THREE.MeshStandardMaterial({
+      color: 0xd4d0c8,
+      roughness: 0.55,
+      metalness: 0.1,
+    });
+
+    const darkGlassEdge = new THREE.MeshStandardMaterial({
+      color: 0x0a140d,
+      roughness: 0.3,
+    });
+
+    const crtFrontGlass = crtTexture
+      ? new THREE.MeshPhysicalMaterial({
+          map: crtTexture,
+          emissive: 0xffffff,
+          emissiveMap: crtTexture,
+          emissiveIntensity: 0.85,
+          roughness: 0.15,
+          metalness: 0.05,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.08,
+        })
+      : new THREE.MeshStandardMaterial({ color: 0x051208 });
+
+    const darkGray = new THREE.MeshStandardMaterial({
+      color: 0x2a2a2a,
+      roughness: 0.7,
+    });
+
+    const ledGreen = new THREE.MeshBasicMaterial({ color: 0x33ff55 });
+
+    return {
+      whitePlastic,
+      darkBezelInset,
+      darkGlassEdge,
+      crtFrontGlass,
+      darkGray,
+      ledGreen,
+    };
+  }, [crtTexture]);
+
+  // 4. Geometries
+  const geometries = useMemo(() => {
+    // Bulged CRT Screen Geometry
+    const screenGeo = new THREE.BoxGeometry(1.92, 1.42, 0.08, 16, 16, 2);
+    const posAttr = screenGeo.attributes.position;
+    for (let i = 0; i < posAttr.count; i++) {
+      const x = posAttr.getX(i);
+      const y = posAttr.getY(i);
+      const z = posAttr.getZ(i);
+      if (z > 0) {
+        const bulge = Math.cos(x * 0.65) * Math.cos(y * 0.85) * 0.09;
+        posAttr.setZ(i, z + bulge);
+      }
+    }
+    screenGeo.computeVertexNormals();
+
+    // Rear cone housing
+    const rearHousingGeo = new THREE.CylinderGeometry(0.85, 1.45, 1.25, 4);
+    rearHousingGeo.rotateY(Math.PI / 4);
+    rearHousingGeo.rotateX(Math.PI / 2);
+
+    // Front dial geometry
+    const dialGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.06, 16);
+    dialGeo.rotateX(Math.PI / 2);
+
+    return { screenGeo, rearHousingGeo, dialGeo };
+  }, []);
+
+  const screenMaterials = useMemo(
+    () => [
+      materials.darkGlassEdge,
+      materials.darkGlassEdge,
+      materials.darkGlassEdge,
+      materials.darkGlassEdge,
+      materials.crtFrontGlass,
+      materials.darkGlassEdge,
+    ],
+    [materials]
+  );
+
+  // 5. Cleanup
   useEffect(() => {
     return () => {
-      bodyMaterial.dispose();
-      screenMaterial.dispose();
-      bezelMaterial.dispose();
+      Object.values(materials).forEach((m) => m?.dispose());
+      Object.values(geometries).forEach((g) => g?.dispose());
+      crtTexture?.dispose();
     };
-  }, [bodyMaterial, screenMaterial, bezelMaterial]);
+  }, [materials, geometries, crtTexture]);
+
+  // 6. Frame animation
+  useFrame((state) => {
+    const time = state.clock.elapsedTime * 1000;
+    updateTerminal(time);
+
+    if (monitorGroupRef.current) {
+      const t = state.clock.elapsedTime;
+      // Gentle floating animation
+      monitorGroupRef.current.position.y = -1.2 + Math.sin(t * 0.8) * 0.02;
+    }
+  });
 
   return (
-    <group ref={monitorRef} position={[0, 0.15, 0]}>
-      {/* Screen bezel (outer frame) */}
-      <mesh position={[0, 1.1, 0]} castShadow receiveShadow material={bezelMaterial}>
-        <boxGeometry args={[2.8, 1.75, 0.08]} />
-      </mesh>
-
-      {/* Screen glass */}
-      <mesh position={[0, 1.1, 0.041]} material={screenMaterial}>
-        <boxGeometry args={[2.55, 1.5, 0.01]} />
-      </mesh>
-
-      {/* Screen glow */}
-      <mesh position={[0, 1.1, 0.05]}>
-        <planeGeometry args={[2.5, 1.45]} />
-        <meshBasicMaterial color="#1a1a3e" transparent opacity={0.08} />
-      </mesh>
-
-      {/* Screen content — code snippet */}
-      <Html
-        position={[0, 1.1, 0.06]}
-        transform
-        distanceFactor={3.2}
-        style={{ pointerEvents: "none" }}
-      >
-        <div
-          style={{
-            width: 280,
-            height: 165,
-            background: "linear-gradient(180deg, #0d0d1a 0%, #0a0a15 100%)",
-            borderRadius: 4,
-            padding: "12px 16px",
-            overflow: "hidden",
-            fontFamily: "monospace",
-            fontSize: "7px",
-            lineHeight: "12px",
-            color: "#3a3a5c",
-          }}
-        >
-          <div style={{ color: "#5865F2", marginBottom: 4 }}>{"// tech_stack.config"}</div>
-          <div>
-            <span style={{ color: "#c792ea" }}>const</span>{" "}
-            <span style={{ color: "#82aaff" }}>skills</span>{" "}
-            <span style={{ color: "#89ddff" }}>=</span> {"{"}
-          </div>
-          <div style={{ paddingLeft: 12 }}>
-            <span style={{ color: "#f78c6c" }}>frontend</span>:{" "}
-            <span style={{ color: "#c3e88d" }}>&apos;React, Next.js&apos;</span>,
-          </div>
-          <div style={{ paddingLeft: 12 }}>
-            <span style={{ color: "#f78c6c" }}>backend</span>:{" "}
-            <span style={{ color: "#c3e88d" }}>&apos;Node, Express&apos;</span>,
-          </div>
-          <div style={{ paddingLeft: 12 }}>
-            <span style={{ color: "#f78c6c" }}>database</span>:{" "}
-            <span style={{ color: "#c3e88d" }}>&apos;MongoDB&apos;</span>,
-          </div>
-          <div style={{ paddingLeft: 12 }}>
-            <span style={{ color: "#f78c6c" }}>animation</span>:{" "}
-            <span style={{ color: "#c3e88d" }}>&apos;GSAP, Three.js&apos;</span>,
-          </div>
-          <div>{"}"}</div>
-          <div style={{ marginTop: 4 }}>
-            <span style={{ color: "#c792ea" }}>export</span>{" "}
-            <span style={{ color: "#c792ea" }}>default</span>{" "}
-            <span style={{ color: "#82aaff" }}>skills</span>;
-          </div>
-          <span
-            style={{
-              display: "inline-block",
-              width: 4,
-              height: 8,
-              background: "#5865F2",
-              animation: "blink 1s infinite",
-              marginLeft: 2,
-            }}
-          />
-        </div>
-      </Html>
-
-      {/* Chin */}
-      <mesh position={[0, 0.18, 0]} material={bezelMaterial}>
-        <boxGeometry args={[0.3, 0.04, 0.08]} />
-      </mesh>
-
-      {/* Stand neck */}
-      <mesh position={[0, -0.05, 0]} castShadow material={bodyMaterial}>
-        <cylinderGeometry args={[0.08, 0.1, 0.5, 16]} />
-      </mesh>
-
-      {/* Stand arm */}
-      <mesh position={[0, -0.15, -0.05]} castShadow material={bodyMaterial}>
-        <boxGeometry args={[0.12, 0.55, 0.12]} />
-      </mesh>
-
+    <group ref={monitorGroupRef} position={[0, -1.2, 0]}>
       {/* Base */}
-      <mesh position={[0, -0.42, 0.05]} receiveShadow castShadow material={bodyMaterial}>
-        <boxGeometry args={[1.0, 0.04, 0.6]} />
+      <mesh
+        position={[0, 0.06, 0]}
+        material={materials.whitePlastic}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[1.8, 0.12, 1.6]} />
       </mesh>
 
-      {/* Base front lip */}
-      <mesh position={[0, -0.39, 0.35]} material={bezelMaterial}>
-        <boxGeometry args={[0.8, 0.02, 0.02]} />
+      {/* Swivel neck */}
+      <mesh
+        position={[0, 0.28, -0.05]}
+        material={materials.darkBezelInset}
+        castShadow
+      >
+        <cylinderGeometry args={[0.45, 0.55, 0.35, 32]} />
+      </mesh>
+
+      {/* Main cabinet */}
+      <mesh
+        position={[0, 1.35, 0.25]}
+        material={materials.whitePlastic}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[2.4, 2.0, 1.1]} />
+      </mesh>
+
+      {/* Bezel frame inset */}
+      <mesh position={[0, 1.42, 0.78]} material={materials.darkBezelInset}>
+        <boxGeometry args={[2.05, 1.55, 0.1]} />
+      </mesh>
+
+      {/* Bulged screen */}
+      <mesh
+        position={[0, 1.42, 0.81]}
+        geometry={geometries.screenGeo}
+        material={screenMaterials}
+      />
+
+      {/* Green phosphor screen glow point light */}
+      <pointLight
+        position={[0, 1.42, 1.15]}
+        color="#33ff66"
+        intensity={0.45}
+        distance={3.5}
+      />
+
+      {/* Rear housing */}
+      <mesh
+        position={[0, 1.35, -0.85]}
+        scale={[1.15, 0.92, 1.0]}
+        geometry={geometries.rearHousingGeo}
+        material={materials.whitePlastic}
+        castShadow
+      />
+
+      {/* Rear cap */}
+      <mesh
+        position={[0, 1.35, -1.5]}
+        material={materials.whitePlastic}
+        castShadow
+      >
+        <boxGeometry args={[1.05, 0.85, 0.35]} />
+      </mesh>
+
+      {/* Heat cooling vents */}
+      {[-3, -2, -1, 0, 1, 2, 3].map((i) => (
+        <mesh
+          key={i}
+          position={[i * 0.25, 1.98 - Math.abs(i) * 0.01, -0.75]}
+          rotation={[-0.26, 0, 0]}
+          material={materials.darkGray}
+        >
+          <boxGeometry args={[0.18, 0.02, 0.55]} />
+        </mesh>
+      ))}
+
+      {/* Power push button */}
+      <mesh position={[0.85, 0.5, 0.8]} material={materials.darkBezelInset}>
+        <boxGeometry args={[0.16, 0.1, 0.08]} />
+      </mesh>
+
+      {/* Green power LED */}
+      <mesh position={[0.68, 0.5, 0.81]} material={materials.ledGreen}>
+        <sphereGeometry args={[0.025, 16, 16]} />
+      </mesh>
+
+      {/* Front dials */}
+      {[0, 1, 2].map((i) => (
+        <mesh
+          key={i}
+          position={[0.2 + i * 0.12, 0.5, 0.8]}
+          geometry={geometries.dialGeo}
+          material={materials.darkGray}
+        />
+      ))}
+
+      {/* Ground shadow disc */}
+      <mesh position={[0, -0.01, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <circleGeometry args={[2.2, 48]} />
+        <meshBasicMaterial color="#000000" transparent opacity={0.45} />
       </mesh>
     </group>
   );
 }
 
-// ─── Orbiting Logos (HTML overlays, NOT inside rotating group) ──────
+// ─── Orbiting Logos (HTML overlays) ────────────────────────────────
 function OrbitingLogos({ radius }) {
   const [hovered, setHovered] = useState(null);
   const rotationRef = useRef(0);
 
-  // Each logo is positioned via world-space math, no 3D group rotation
-  // This prevents mirroring since HTML is never inside a rotated group
+  // Each logo is positioned via world-space math
   const positionsRef = useRef(
     skills.map((_, i) => {
       const angle = (i / skills.length) * Math.PI * 2;
-      return { x: radius * Math.cos(angle), z: radius * Math.sin(angle), y: 0 };
+      return { x: radius * Math.cos(angle), z: radius * Math.sin(angle), y: -0.45 };
     })
   );
 
@@ -203,11 +399,11 @@ function OrbitingLogos({ radius }) {
     skills.forEach((_, i) => {
       const baseAngle = (i / skills.length) * Math.PI * 2;
       const angle = baseAngle + rotationRef.current;
-      const floatY = Math.sin(t * (0.8 + i * 0.05) + i * 0.6) * 0.12;
+      const floatY = Math.sin(t * (0.8 + i * 0.05) + i * 0.6) * 0.15;
       positionsRef.current[i] = {
         x: radius * Math.cos(angle),
         z: radius * Math.sin(angle),
-        y: floatY,
+        y: -0.45 + floatY,
       };
     });
   });
@@ -241,10 +437,9 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
 
   return (
     <mesh ref={meshRef}>
-      {/* Invisible sphere just to position the Html overlay */}
       <sphereGeometry args={[0.01, 4, 4]} />
       <meshBasicMaterial visible={false} />
-      <Html center distanceFactor={8} style={{ pointerEvents: "auto" }}>
+      <Html center distanceFactor={9.2} style={{ pointerEvents: "auto" }}>
         <div
           onMouseEnter={() => onHover(index)}
           onMouseLeave={() => onHover(null)}
@@ -253,28 +448,28 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
             flexDirection: "column",
             alignItems: "center",
             gap: "8px",
-            cursor: "default",
+            cursor: "pointer",
             transform: isHovered ? "scale(1.25)" : "scale(1)",
             transition: "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
-            filter: isHovered ? `drop-shadow(0 0 12px ${skill.color}80)` : "none",
+            filter: isHovered ? `drop-shadow(0 0 14px ${skill.color}90)` : "none",
           }}
         >
           {/* Logo container */}
           <div
             style={{
-              width: 56,
-              height: 56,
+              width: 58,
+              height: 58,
               borderRadius: "16px",
-              background: `rgba(${hexToRgb(skill.color)}, 0.08)`,
-              border: `1.5px solid ${isHovered ? skill.color : `${skill.color}30`}`,
+              background: `rgba(${hexToRgb(skill.color)}, 0.12)`,
+              border: `1.5px solid ${isHovered ? skill.color : `${skill.color}35`}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               padding: "10px",
-              backdropFilter: "blur(8px)",
+              backdropFilter: "blur(10px)",
               boxShadow: isHovered
-                ? `0 0 24px ${skill.color}30, 0 0 48px ${skill.color}15, inset 0 0 12px ${skill.color}08`
-                : `0 4px 16px rgba(0,0,0,0.3)`,
+                ? `0 0 28px ${skill.color}40, 0 0 54px ${skill.color}20, inset 0 0 14px ${skill.color}10`
+                : `0 4px 20px rgba(0,0,0,0.4)`,
               transition: "all 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
             }}
           >
@@ -285,7 +480,7 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
                 width: "100%",
                 height: "100%",
                 objectFit: "contain",
-                filter: isHovered ? "brightness(1.2)" : "brightness(0.9)",
+                filter: isHovered ? "brightness(1.2)" : "brightness(0.95)",
                 transition: "filter 0.3s ease",
               }}
               draggable={false}
@@ -298,11 +493,11 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
               fontWeight: 600,
               color: isHovered ? skill.color : "#c2c6d5",
               textTransform: "uppercase",
-              letterSpacing: "0.1em",
+              letterSpacing: "0.12em",
               fontFamily: "var(--font-label), sans-serif",
               whiteSpace: "nowrap",
               transition: "color 0.3s ease",
-              textShadow: isHovered ? `0 0 8px ${skill.color}40` : "none",
+              textShadow: isHovered ? `0 0 8px ${skill.color}50` : "none",
             }}
           >
             {skill.name}
@@ -316,51 +511,88 @@ function LogoOverlay({ skill, index, positionsRef, hovered, onHover }) {
 // ─── Orbital Ring ──────────────────────────────────────────────────
 function OrbitalRing({ radius }) {
   return (
-    <>
+    <group position={[0, -0.45, 0]}>
+      {/* Primary ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[radius - 0.05, radius + 0.05, 128]} />
-        <meshBasicMaterial color="#6366f1" transparent opacity={0.06} side={THREE.DoubleSide} />
+        <ringGeometry args={[radius - 0.03, radius + 0.03, 128]} />
+        <meshBasicMaterial
+          color="#60a5fa"
+          transparent
+          opacity={0.2}
+          side={THREE.DoubleSide}
+        />
       </mesh>
+      {/* Outer glow ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[radius - 0.15, radius + 0.15, 128]} />
-        <meshBasicMaterial color="#818cf8" transparent opacity={0.02} side={THREE.DoubleSide} />
+        <ringGeometry args={[radius - 0.25, radius + 0.25, 128]} />
+        <meshBasicMaterial
+          color="#818cf8"
+          transparent
+          opacity={0.05}
+          side={THREE.DoubleSide}
+        />
       </mesh>
-    </>
+      {/* Inner subtle orbit track */}
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[radius - 0.8, radius - 0.78, 128]} />
+        <meshBasicMaterial
+          color="#38bdf8"
+          transparent
+          opacity={0.08}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+    </group>
   );
 }
 
-// ─── Scene ─────────────────────────────────────────────────────────
+// ─── 3D Scene ───────────────────────────────────────────────────────
 function Scene() {
-  const orbitRadius = 3.2;
+  const orbitRadius = 5.2;
 
   return (
     <>
-      {/* Lighting */}
-      <ambientLight intensity={0.4} />
+      {/* Lights */}
+      <ambientLight intensity={0.7} />
       <directionalLight
-        position={[3, 6, 4]}
-        intensity={0.7}
+        position={[5, 8, 6]}
+        intensity={1.3}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
-        shadow-camera-far={20}
-        shadow-camera-near={0.1}
       />
-      <pointLight position={[-4, 2, -3]} intensity={0.3} color="#6366f1" />
-      <pointLight position={[4, -1, 3]} intensity={0.2} color="#818cf8" />
-      <spotLight
-        position={[0, 8, 0]}
-        angle={0.5}
-        penumbra={1}
+      <directionalLight
+        position={[-6, 5, -4]}
+        intensity={0.6}
+        color="#a5b4fc"
+      />
+      <directionalLight
+        position={[0, -3, 5]}
         intensity={0.3}
-        color="#c7d2fe"
+        color="#38bdf8"
       />
+      <pointLight position={[0, 4, 0]} intensity={0.3} color="#60a5fa" />
+
+      {/* Centerpiece: Retro White CRT Monitor */}
+      <RetroMonitor />
 
       {/* Orbital ring */}
       <OrbitalRing radius={orbitRadius} />
 
-      {/* Orbiting logos — positioned individually, NOT inside a rotating group */}
+      {/* Orbiting skill logos */}
       <OrbitingLogos radius={orbitRadius} />
+
+      {/* Interactive OrbitControls */}
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.05}
+        minPolarAngle={Math.PI / 4.5}
+        maxPolarAngle={Math.PI / 2 + 0.05}
+        rotateSpeed={0.65}
+        target={[0, 0, 0]}
+      />
     </>
   );
 }
@@ -377,7 +609,7 @@ export default function SkillsOrbit() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Mobile fallback
+  // Mobile fallback GSAP entrance
   useEffect(() => {
     if (!isMobile || !gridRef.current || !canAnimate()) return;
 
@@ -441,22 +673,29 @@ export default function SkillsOrbit() {
   }
 
   return (
-    <div style={{ width: "100%", height: 600, pointerEvents: "none" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        minHeight: 650,
+        position: "relative",
+      }}
+    >
       <Canvas
-        camera={{ position: [0, 2, 7], fov: 50 }}
+        camera={{ position: [0, 2.8, 10.2], fov: 46 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         shadows={{ type: THREE.PCFShadowMap }}
-        style={{ background: "transparent" }}
+        style={{ background: "transparent", cursor: "grab" }}
       >
         <Scene />
       </Canvas>
-      <style jsx global>{`
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-      `}</style>
+
+      {/* 3D interaction hint pill */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-high/60 backdrop-blur-md border border-outline-variant/20 text-[10px] uppercase tracking-widest text-on-surface-variant select-none pointer-events-none">
+        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+        <span>Drag to rotate in 3D</span>
+      </div>
     </div>
   );
 }

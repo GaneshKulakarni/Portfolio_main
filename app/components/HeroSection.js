@@ -5,10 +5,9 @@ import { canAnimate } from "../utils/animation";
 import useMagneticHover from "../hooks/useMagneticHover";
 
 const stats = [
-  { value: "2+", label: "Hackathon Awards" },
-  { value: "10+", label: "Projects Built" },
   { value: "MERN", label: "Core Stack" },
   { value: "AI", label: "Enthusiast" },
+  { value: "SAP ABAP", label: "Associate" },
 ];
 
 
@@ -325,13 +324,13 @@ export default function HeroSection({ preloaderDone }) {
 
         {/* Stats Bento Bar */}
         <section className="stats-section px-6 md:px-24 py-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0.5 bg-outline-variant/10 border border-outline-variant/10 rounded-2xl overflow-hidden backdrop-blur-xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0.5 bg-outline-variant/10 border border-outline-variant/10 rounded-2xl overflow-hidden backdrop-blur-xl">
             {stats.map((stat, i) => (
               <div
                 key={i}
                 className={`stat-item bg-surface-container-low p-8 flex flex-col gap-2 transition-all duration-700 ${headlineRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
               >
-                <span className="font-[family-name:var(--font-headline)] text-4xl font-bold text-primary">
+                <span className="font-[family-name:var(--font-headline)] text-3xl sm:text-4xl font-bold text-primary">
                   {stat.value}
                 </span>
                 <span className="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-widest text-on-surface-variant">

@@ -24,7 +24,6 @@ const codeLines = [
 const stats = [
   { value: "IT", label: "Student (2027)" },
   { value: "BYAMN", label: "Internship" },
-  { value: "Top 1.5K", label: "Google Hackathon" },
   { value: "40/516", label: "ECWoC Open Source" },
 ];
 

@@ -9,7 +9,7 @@ const experiences = [
     title: "Full Stack Developer Intern",
     company: "BYAMN",
     location: "Remote",
-    period: "Jul 2026 — Present",
+    period: "Jul — Aug 2026",
     icon: "laptop_mac",
     iconColor: "text-primary",
     accentColor: "text-secondary",
